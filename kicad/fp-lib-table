@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "MCU_RPi")(type "KiCad")(uri "${KIPRJMOD}/footprints/MCU_RPi")(options "")(descr ""))
+)
