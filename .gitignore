@@ -22,3 +22,6 @@ fp-info-cache
 *.ses
 *.xml
 *.csv
+
+# libreoffice stuff
+.~lock.*
