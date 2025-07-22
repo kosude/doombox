@@ -450,7 +450,8 @@
       "MCU_RPi"
     ],
     "pinned_symbol_libs": [
-      "MCU_RPi"
+      "MCU_RPi",
+      "MCU_Microchip_MCP"
     ]
   },
   "meta": {
