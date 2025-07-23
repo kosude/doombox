@@ -44,7 +44,8 @@ use of the IEC 80000-13 units indicates a binary value.
 
 -----------------------------[ FILESYSTEM LAYOUT ]-----------------------------
 
-TO-DO
+Available capacity:
+    * 4 MiB on-board flash
 
 
 --------------------------------[ MEMORY MAP ]---------------------------------
@@ -66,6 +67,8 @@ is therefore available for code and data.
 
 ---------------------------[ GRAPHICS SPECIFICATION ]--------------------------
 
+    TODO: section outdated
+
 Doombox provides graphical output via VGA.
 
 Colour data is output in the form RGB-332, i.e. 3 bits for the red and green
@@ -76,4 +79,26 @@ GPIOs 0-9 are reserved for graphical output:
     1:   VSYNC
     2-4: RED        GPIO2=LSB, GPIO4=MSB
     5-7: GREEN      GPIO5=LSB, GPIO7=MSB
-    8-9: BLUE       GPIO8=LSB, GPIO9=MSB`
+    8-9: BLUE       GPIO8=LSB, GPIO9=MSB
+
+
+----------------------------[ AUDIO SPECIFICATION ]----------------------------
+
+    TODO
+
+
+----------------------------[ INPUT SPECIFICATION ]----------------------------
+
+    TODO
+
+Required controls:
+    * Move forward + move backwards | Single joystick: vertical: moving
+    * Turn left + turn right        |                  horizontal: turning
+    * Strafe                          Modifier btn: strafe with hoz. joystick
+    * Run / speed modifier            Modifier button
+    * Fire                            Button
+    * Interact                        Button
+    * Menu                            Button
+    * Weapon selection                7 buttons
+
+Automap necessary?
