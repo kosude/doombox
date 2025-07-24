@@ -1389,7 +1389,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Doombox:MCP23S08"
+		(symbol "MCU_Microchip_MCP:MCP23S08"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -1777,7 +1777,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Doombox:RPi_Pico_SMD_TH"
+		(symbol "MCU_RPi:RPi_Pico_SMD_TH"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -6893,7 +6893,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Doombox:MCP23S08")
+		(lib_id "MCU_Microchip_MCP:MCP23S08")
 		(at 171.45 53.34 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -8207,7 +8207,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Doombox:RPi_Pico_SMD_TH")
+		(lib_id "MCU_RPi:RPi_Pico_SMD_TH")
 		(at 90.17 92.71 0)
 		(unit 1)
 		(exclude_from_sim no)

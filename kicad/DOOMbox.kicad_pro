@@ -447,7 +447,8 @@
   },
   "libraries": {
     "pinned_footprint_libs": [
-      "MCU_RPi"
+      "MCU_RPi",
+      "MCU_Microchip_MCP"
     ],
     "pinned_symbol_libs": [
       "MCU_RPi",
