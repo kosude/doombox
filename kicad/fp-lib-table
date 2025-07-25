@@ -2,4 +2,5 @@
   (version 7)
   (lib (name "MCU_RPi")(type "KiCad")(uri "${KIPRJMOD}/footprints/MCU_RPi")(options "")(descr ""))
   (lib (name "MCU_Microchip_MCP")(type "KiCad")(uri "${KIPRJMOD}/footprints/MCU_Microchip_MCP")(options "")(descr ""))
+  (lib (name "CD40xxBx")(type "KiCad")(uri "${KIPRJMOD}/footprints/CD40xxBx")(options "")(descr ""))
 )

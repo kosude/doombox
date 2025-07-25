@@ -448,12 +448,17 @@
   "libraries": {
     "pinned_footprint_libs": [
       "MCU_RPi",
-      "MCU_Microchip_MCP"
+      "MCU_Microchip_MCP",
+      "CD40xxBx"
     ],
     "pinned_symbol_libs": [
       "MCU_RPi",
       "Doombox",
-      "MCU_Microchip_MCP"
+      "MCU_Microchip_MCP",
+      "CD40107BE",
+      "CD4010BE",
+      "CD40xxB",
+      "CD40xxBx"
     ]
   },
   "meta": {

@@ -22,7 +22,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "MCU_Microchip_MCP:DIP794W56P254L2286H533Q18N"
 			(at -1.27 30.48 0)
 			(effects
 				(font
