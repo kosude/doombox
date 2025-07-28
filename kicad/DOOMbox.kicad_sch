@@ -4866,21 +4866,6 @@
 		)
 		(uuid "7fb55dca-3f76-431a-8446-e778a58de84f")
 	)
-	(text "To order (not yet doc'd):\n - necessary resistors\n - necessary caps\n - phone connector (J2)"
-		(exclude_from_sim no)
-		(at 61.722 30.226 0)
-		(effects
-			(font
-				(size 1.397 1.397)
-				(thickness 0.254)
-				(bold yes)
-				(italic yes)
-				(color 255 0 0 1)
-			)
-			(justify left)
-		)
-		(uuid "8321bfb7-76e1-43b2-8918-921ee770e949")
-	)
 	(text "VGA Out"
 		(exclude_from_sim no)
 		(at 256.286 96.52 0)
