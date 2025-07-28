@@ -4797,7 +4797,7 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "VGA SPI and DACs"
+	(text "Video SPI and DACs"
 		(exclude_from_sim no)
 		(at 200.152 96.52 0)
 		(effects
