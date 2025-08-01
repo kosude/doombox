@@ -5,7 +5,6 @@
  * See the LICENCE file for more information.
  */
 
-#include "pico/stdlib.h"
 #include <stdio.h>
 
 int
