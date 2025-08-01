@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
+# enforce build configs
 set(CMAKE_CONFIGURATION_TYPES Debug Release)
 if (NOT CMAKE_BUILD_TYPE)
     message(WARNING "Missing build configuration type! Defaulted to RELEASE, "
@@ -8,23 +9,19 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-# dirs
-set(CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}/cmake" CACHE INTERNAL "")
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/mod")
 
-set(CMAKE_MODULE_PATH "${CMAKE_DIR}/mod")
+# build options
+option(DBX_BUILD_FIRMWARE "Build DOOMbox firmware (requires pico-sdk)" ON)
 
-# init project with pico-sdk initialised
-find_package(PicoSdk REQUIRED)
-project("doombox" C CXX)
-pico_sdk_init()
+# project init
+if (DBX_BUILD_FIRMWARE)
+    # pico-sdk cmake config must be included before any project() call
+    find_package(PicoSdk REQUIRED)
+endif()
+project("doombox")
 
-# firmware exec
-# TODO move
-add_executable(doombox
-    "firmware/main.c"
-)
-target_link_libraries(doombox
-    pico_stdlib
-)
-
-pico_add_extra_outputs(doombox)
+# build firmware if specified
+if (DBX_BUILD_FIRMWARE)
+    add_subdirectory("firmware")
+endif()

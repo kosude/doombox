@@ -1,4 +1,4 @@
-This repository contains all documentation/schematics and code for DOOMbox.
+This repository contains all documentation and code for the DOOMbox Project.
 
 My final goal for this project is an encased physical console, based on the
 Pico 2 (RP2350 using Arm) dedicated to running a purpose-built DOOM clone,
@@ -20,8 +20,27 @@ hardware. The main difference is that this project is more intended to just be
 a fun learning experience as opposed to trying to make an authentic DOOM port
 (which is why I'm not porting at all).
 
+
+-------------------------[ BUILDING DOOMBOX FIRMWARE ]-------------------------
+
+Building the firmware requires CMake, as well as the pico-sdk:
+
+    https://github.com/raspberrypi/pico-sdk
+
+Then (in the root project directory) configure for the desired build type:
+    $ cmake . -Bbuild -DCMAKE_BUILD_TYPE=(Debug|Release)
+and build:
+    $ cmake --build build
+
+Make sure the DBX_BUILD_FIRMWARE build option is set to ON - this is the
+default value.
+
+
+###############################################################################
+
+
 The rest of this document serves as the project's most current design
-specification. KiCad files are also provided in the kicad/ directory.
+specification. Kicad schematics are also provided in the hardware/ directory.
 
 
 -------------------------------[ PREREQUISITES ]-------------------------------
@@ -68,7 +87,7 @@ voltage to 5V.
 
 ---------------------------[ GRAPHICS SPECIFICATION ]--------------------------
 
-Doombox provides graphical output via VGA. Colour data is output serially from
+DOOMbox provides graphical output via VGA. Colour data is output serially from
 the Pico (SPI), through an MCP23S08 for parallel expansion, to the VGA
 connector.
 
