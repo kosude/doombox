@@ -25,3 +25,8 @@ fp-info-cache
 
 # libreoffice stuff
 .~lock.*
+
+# firmware build
+build/
+.cache/
+compile_commands.json

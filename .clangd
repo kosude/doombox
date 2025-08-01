@@ -1,0 +1,11 @@
+# Configuration for using clangd (in VS code) without resorting to suicide, or
+# worse, using Microsoft's C/C++ extension
+# (this fixes many IDE errors in the Pico SDKs which show up for some reason)
+
+Diagnostics:
+  Suppress:
+    - pp_file_not_found_angled_include_not_fatal
+    - unused-includes
+CompileFlags:
+  Add:
+    -I/usr/arm-none-eabi/include/

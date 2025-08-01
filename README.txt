@@ -1,8 +1,8 @@
 This repository contains all documentation/schematics and code for DOOMbox.
 
-My final goal for this project is an encased physical console dedicated to
-running a purpose-built DOOM clone, maybe with a bunch of extra features thrown
-in for fun.
+My final goal for this project is an encased physical console, based on the
+Pico 2 (RP2350 using Arm) dedicated to running a purpose-built DOOM clone,
+maybe with a bunch of extra features thrown in for fun.
 
 This is an evolution of my previous ambition to write a functional DOOM clone
 in pure x86 assembly. The software for DOOMbox will instead be written in a
