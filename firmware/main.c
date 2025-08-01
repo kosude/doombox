@@ -8,8 +8,10 @@
 #include "pico/stdlib.h"
 #include <stdio.h>
 
-int main(void) {
-  printf("Hello world\n");
+int
+main(void)
+{
+    printf("Hello world\n");
 
-  return 0;
+    return 0;
 }

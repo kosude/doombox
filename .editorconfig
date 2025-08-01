@@ -10,3 +10,6 @@ insert_final_newline = true
 
 [.clangd]
 indent_size = 2
+
+[.clang-format]
+indent_size = 2
