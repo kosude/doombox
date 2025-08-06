@@ -36,6 +36,27 @@ Make sure the DBX_BUILD_FIRMWARE build option is set to ON - this is the
 default value.
 
 
+------------------------[ DEBUGGING DOOMBOX FIRMWARE ]-------------------------
+
+Raspberry Pi document how to debug Pico software in one of their manuals:
+
+    https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf
+
+There are multiple ways to debug, but the only properly tested route for
+DOOMbox is with a second Pico, since it's the best way IMO and I don't want to
+buy a "debug probe".
+
+To go that route, GDB is required as well as Raspberry Pi's OpenOCD fork:
+
+    https://github.com/raspberrypi/openocd
+
+Program and set up the second Pico as shown in the Getting Started guide above
+(I use the official debugprobe firmware) and then connect it to the host via
+USB.
+
+Then run the scripts/firmware_ocd.sh file to begin a GDB debugging session.
+
+
 ###############################################################################
 
 
