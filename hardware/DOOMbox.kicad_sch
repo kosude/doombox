@@ -4797,6 +4797,18 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "Left channel"
+		(exclude_from_sim no)
+		(at 197.104 49.784 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 0 0 255 1)
+			)
+			(justify left)
+		)
+		(uuid "0fa06198-0613-4f53-8ffd-0fc8442baeae")
+	)
 	(text "Video SPI and DACs"
 		(exclude_from_sim no)
 		(at 200.152 96.52 0)
@@ -4853,6 +4865,18 @@
 			(justify left)
 		)
 		(uuid "7a64a891-fc30-4383-8b01-d00a5e061f69")
+	)
+	(text "Right channel"
+		(exclude_from_sim no)
+		(at 197.612 77.216 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 0 0 255 1)
+			)
+			(justify left)
+		)
+		(uuid "7cfd24b7-0067-4c35-8235-dff84c4184d5")
 	)
 	(text "Blue 2-bit"
 		(exclude_from_sim no)

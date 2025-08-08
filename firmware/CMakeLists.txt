@@ -2,7 +2,7 @@ pico_sdk_init()
 
 # firmware exec
 add_executable(doombox
-    "main.c"
+    "pwm_test.c"
 )
 target_link_libraries(doombox
     pico_stdlib
