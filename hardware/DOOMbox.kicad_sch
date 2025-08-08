@@ -7742,7 +7742,7 @@
 		(lib_id "Amplifier_Operational:LM324")
 		(at 212.09 41.91 0)
 		(mirror x)
-		(unit 3)
+		(unit 4)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -7837,7 +7837,7 @@
 			(project "DOOMbox"
 				(path "/eddfbb36-34c6-4c43-a971-b4c3a9c38a8f"
 					(reference "U4")
-					(unit 3)
+					(unit 4)
 				)
 			)
 		)
@@ -10058,7 +10058,7 @@
 		(lib_id "Amplifier_Operational:LM324")
 		(at 212.09 68.58 0)
 		(mirror x)
-		(unit 4)
+		(unit 3)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -10153,7 +10153,7 @@
 			(project "DOOMbox"
 				(path "/eddfbb36-34c6-4c43-a971-b4c3a9c38a8f"
 					(reference "U4")
-					(unit 4)
+					(unit 3)
 				)
 			)
 		)

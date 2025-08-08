@@ -130,7 +130,7 @@ where the leftmost bit of each channel is the MSB as usual.
 
 ----------------------------[ AUDIO SPECIFICATION ]----------------------------
 
-Stereo audio is provided via pulse width modulation (PWM). GPIOs 8-9 are
+Stereo audio is provided via pulse width modulation (PWM). GPIOs 8 and 9 are
 reserved for this purpose, where GPIO8 outputs left audio, and GPIO9 right.
 
     TODO better description
