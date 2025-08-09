@@ -54,7 +54,9 @@ Program and set up the second Pico as shown in the Getting Started guide above
 (I use the official debugprobe firmware) and then connect it to the host via
 USB.
 
-Then run the scripts/firmware_ocd.sh file to begin a GDB debugging session.
+The rest of the process can be done for you by the Unified Programming and
+Debugging Utility (updu.sh) in the scripts/ directory, which will by default
+open a GDB session for debugging.
 
 
 ###############################################################################

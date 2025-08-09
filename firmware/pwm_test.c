@@ -36,9 +36,9 @@ main(void)
     gpio_put(PICO_DEFAULT_LED_PIN, 1);
 
     // TODO optionally beep onboard speaker on startup
-    // gpio_put(GPIO_OBSPKR, 1);
-    // sleep_ms(100);
-    // gpio_put(GPIO_OBSPKR, 0);
+    gpio_put(GPIO_OBSPKR, 1);
+    sleep_ms(100);
+    gpio_put(GPIO_OBSPKR, 0);
 
     gpio_set_function(GPIO_PWM_AUL, GPIO_FUNC_PWM);
     gpio_set_function(GPIO_PWM_AUR, GPIO_FUNC_PWM);

@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
 
+# -----------------------------------------------------------------------------
+# updu.sh: DOOMbox Unified Programming and Debugging Utility
+#
+# Pass the -h flag for argument information.
+# -----------------------------------------------------------------------------
+
 set -e
 
 usage() {
     printf "Usage: $0 [-h] [-p | -2] [-s] file\n"
 }
 help() {
+    printf "DOOMbox Unified Programming and Debugging Utility\n"
     printf "Utility tool for interfacing with connected RP2350 via OpenOCD\n"
+    printf "\n"
     usage
 
     printf "\n"
@@ -21,12 +29,12 @@ error() {
 
 # don't allow prefixing with sudo.
 if [ $(id -u) -eq 0 ]; then
-    error "This script cannot be called with sudo."
+    error "The UPDU cannot be called with sudo."
     exit 1
 fi
 
 PROJECT_PATH="$(dirname -- "$(dirname -- "$(realpath "$BASH_SOURCE")")")"
-GDBINIT="$PROJECT_PATH/scripts/gdbinit"
+GDBINIT="$PROJECT_PATH/scripts/updu_gdbinit"
 
 OPENOCD=$(command -v openocd)
 GDB=$(command -v gdb)
