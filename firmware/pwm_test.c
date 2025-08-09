@@ -32,6 +32,8 @@ main(void)
 
     // turn on onboard LED
     gpio_put(PICO_DEFAULT_LED_PIN, 1);
+    gpio_put(PICO_DEFAULT_LED_PIN, 0);
+    gpio_put(PICO_DEFAULT_LED_PIN, 1);
 
     // TODO optionally beep onboard speaker on startup
     // gpio_put(GPIO_OBSPKR, 1);

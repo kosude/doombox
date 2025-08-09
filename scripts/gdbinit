@@ -2,8 +2,8 @@ define hook-quit
     set confirm off
 end
 
-file build/firmware/doombox.elf
+set pagination off
 
-target remote localhost:3333
+target extended-remote localhost:3333
 
 monitor reset init

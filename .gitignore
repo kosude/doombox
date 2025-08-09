@@ -23,10 +23,8 @@ fp-info-cache
 *.xml
 *.csv
 
-# libreoffice stuff
-.~lock.*
-
-# firmware build
+# firmware build and debugging
 build/
 .cache/
 compile_commands.json
+.gdb_history
