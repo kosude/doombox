@@ -9,7 +9,7 @@
 set -e
 
 usage() {
-    printf "Usage: $0 [-h] [-p | -2] [-s] file\n"
+    printf "Usage: $0 [-h] [-p|-2] [-d <gdb|none>] file\n"
 }
 help() {
     printf "DOOMbox Unified Programming and Debugging Utility\n"
@@ -18,13 +18,22 @@ help() {
     usage
 
     printf "\n"
-    printf "  file  ELF binary to flash/debug\n"
-    printf "  -p    Program the pico with the specified file instead of"
-    printf        " debugging\n"
-    printf "  -2    Two-stage: program and immediately start debugging\n"
+    printf "  -p        Program the pico with the specified file instead of"
+    printf            " debugging\n"
+    printf "  -2        Two-stage: program and immediately start debugging\n"
+    printf "  -d name   Specify debugger to use (default: gdb)\n"
+    printf "  -K        Kill ALL existing OpenOCD processes before starting"
+    printf "\n"
+    printf "  -h        Print this help message\n"
 }
 error() {
     printf "$0: $1\n"
+}
+assert_cmd() {
+    if ! command -v "$1" >/dev/null 2>&1; then
+        error "$1 not found in PATH"
+        exit 1
+    fi
 }
 
 # don't allow prefixing with sudo.
@@ -36,19 +45,24 @@ fi
 PROJECT_PATH="$(dirname -- "$(dirname -- "$(realpath "$BASH_SOURCE")")")"
 GDBINIT="$PROJECT_PATH/scripts/updu_gdbinit"
 
-OPENOCD=$(command -v openocd)
-GDB=$(command -v gdb)
-
 # default arg values
 MODE=1  # 0: program, 1: debug, 2: both
+DBG_NAME="gdb"
+KILLOCD=false
 
-while getopts "p2h" o; do
+while getopts "p2d:Kh" o; do
     case "$o" in
         p)
             MODE=0
             ;;
         2)
             MODE=2
+            ;;
+        d)
+            DBG_NAME="$OPTARG"
+            ;;
+        K)
+            KILLOCD=true
             ;;
         h)
             help
@@ -61,8 +75,17 @@ while getopts "p2h" o; do
     esac
 done
 shift $(($OPTIND - 1))
-
+# positional arguments
 PROGRAM_PATH="$1"
+
+# dependency checks
+OPENOCD=openocd # TODO any way to assert the RPi fork?
+GDB=gdb
+assert_cmd $OPENOCD
+if [ "$DBG_NAME" = "gdb" ]; then
+    assert_cmd $GDB
+fi
+
 # specifying a path is required
 if [ "$#" -ne 1 ]; then
     error "Illegal number of arguments passed"
@@ -75,24 +98,46 @@ if ! [ -f "$PROGRAM_PATH" ]; then
     exit 1
 fi
 
-OPENOCDFLAGS='-f interface/cmsis-dap.cfg -f target/rp2350.cfg'
+# kill other openocd instances if chosen
+if $KILLOCD; then
+    killall -q $OPENOCD || true
+fi
+
+OPENOCDFLAGS="-f interface/cmsis-dap.cfg -f target/rp2350.cfg \
+              -c 'adapter speed 5000'"
 
 # function to program the pico
 program() {
-    $OPENOCD $OPENOCDFLAGS \
-        -c "adapter speed 5000" \
-        -c "program $PROGRAM_PATH verify reset exit"
+    eval "$OPENOCD $OPENOCDFLAGS \
+          -c \"program $PROGRAM_PATH verify reset exit\""
 }
 
 # function to debug the program running on the pico
 debug() {
-    GDBFLAGS="-q -x $GDBINIT"
+    # if just running the openocd server then forget about debugging after
+    if [ "$DBG_NAME" = "none" ]; then
+        eval "$OPENOCD $OPENOCDFLAGS"
+        return
+    fi
 
-    # run openocd and gdb in parallel
+    DBGCMD=
+    case "$DBG_NAME" in
+        gdb)
+            DBGCMD="$GDB -q -x $GDBINIT \"$PROGRAM_PATH\""
+            ;;
+        none)
+            ;;
+        *)
+            error "Invalid debugger name $DBG_NAME"
+            usage
+            exit 1
+            ;;
+    esac
+
+    # run openocd and debugger in parallel
     trap "kill %+" EXIT # kill the openocd process on CTRL+D
-    $OPENOCD $OPENOCDFLAGS \
-        -c "adapter speed 5000" &
-    $GDB $GDBFLAGS "$PROGRAM_PATH"
+    eval "$OPENOCD $OPENOCDFLAGS" &
+    eval "$DBGCMD"
 }
 
 case "$MODE" in
@@ -106,6 +151,7 @@ case "$MODE" in
         printf "$0: Mode: DEBUG\n"
         debug
         ;;
+    # program and debug sequentially
     2)
         printf "$0: Mode: 2STAGE\n"
         program
