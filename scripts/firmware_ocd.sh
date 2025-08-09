@@ -14,7 +14,6 @@ help() {
     printf "  -p    Program the pico with the specified file instead of"
     printf        " debugging\n"
     printf "  -2    Two-stage: program and immediately start debugging\n"
-    printf "  -s    If debugging, run the server only, without GDB\n"
 }
 error() {
     printf "$0: $1\n"
@@ -34,18 +33,14 @@ GDB=$(command -v gdb)
 
 # default arg values
 MODE=1  # 0: program, 1: debug, 2: both
-USE_GDB=true # use GDB by default when mode = 0 (debug)
 
-while getopts "p2sh" o; do
+while getopts "p2h" o; do
     case "$o" in
         p)
             MODE=0
             ;;
         2)
             MODE=2
-            ;;
-        s)
-            USE_GDB=false
             ;;
         h)
             help
@@ -72,12 +67,6 @@ if ! [ -f "$PROGRAM_PATH" ]; then
     exit 1
 fi
 
-# -p and -s at the same time is silly
-if [ "$MODE" -eq "0" ] && ! $USE_GDB; then
-    error "Flag -s was specified despite being in programming mode (-p); this\
- will have no effect."
-fi
-
 OPENOCDFLAGS='-f interface/cmsis-dap.cfg -f target/rp2350.cfg'
 
 # function to program the pico
@@ -89,19 +78,13 @@ program() {
 
 # function to debug the program running on the pico
 debug() {
-    if $USE_GDB; then
-        GDBFLAGS="-q -x $GDBINIT"
+    GDBFLAGS="-q -x $GDBINIT"
 
-        # run openocd and gdb in parallel
-        trap "kill %+" EXIT # kill the openocd process on CTRL+D
-        $OPENOCD $OPENOCDFLAGS \
-            -c "adapter speed 5000" &
-        $GDB $GDBFLAGS "$PROGRAM_PATH"
-    else
-        # just run openocd as server
-        $OPENOCD $OPENOCDFLAGS \
-            -c "adapter speed 5000"
-    fi
+    # run openocd and gdb in parallel
+    trap "kill %+" EXIT # kill the openocd process on CTRL+D
+    $OPENOCD $OPENOCDFLAGS \
+        -c "adapter speed 5000" &
+    $GDB $GDBFLAGS "$PROGRAM_PATH"
 }
 
 case "$MODE" in

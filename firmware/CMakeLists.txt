@@ -8,6 +8,3 @@ target_link_libraries(doombox
     pico_stdlib
     hardware_pwm
 )
-
-# uf2, hex, etc
-pico_add_extra_outputs(doombox)
