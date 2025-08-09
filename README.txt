@@ -82,7 +82,7 @@ use of the IEC 80000-13 units indicates a binary value.
 -----------------------------[ FILESYSTEM LAYOUT ]-----------------------------
 
 Available capacity:
-    * 4 MiB on-board flash
+    * 4 MiB on-board flash/NVM
 
 
 --------------------------------[ MEMORY MAP ]---------------------------------

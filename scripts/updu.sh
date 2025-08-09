@@ -14,15 +14,15 @@ usage() {
 help() {
     printf "DOOMbox Unified Programming and Debugging Utility\n"
     printf "Utility tool for interfacing with connected RP2350 via OpenOCD\n"
-    printf "\n"
-    usage
 
     printf "\n"
-    printf "  -p        Program the pico with the specified file instead of"
-    printf            " debugging\n"
+    usage
+    printf "\n"
+
+    printf "  -p        Program the pico instead of debugging\n"
     printf "  -2        Two-stage: program and immediately start debugging\n"
     printf "  -d name   Specify debugger to use (default: gdb)\n"
-    printf "  -K        Kill ALL existing OpenOCD processes before starting"
+    printf "  -K        Kill ALL existing OpenOCD processes before starting\n"
     printf "\n"
     printf "  -h        Print this help message\n"
 }
@@ -44,11 +44,12 @@ fi
 
 PROJECT_PATH="$(dirname -- "$(dirname -- "$(realpath "$BASH_SOURCE")")")"
 GDBINIT="$PROJECT_PATH/scripts/updu_gdbinit"
+OPENOCD_WRAP="$PROJECT_PATH/scripts/oocd_wrap.sh"
 
 # default arg values
 MODE=1  # 0: program, 1: debug, 2: both
 DBG_NAME="gdb"
-KILLOCD=false
+OCDKILL_FLAG="" # -K optionally passed to oocd_wrap.sh
 
 while getopts "p2d:Kh" o; do
     case "$o" in
@@ -62,7 +63,7 @@ while getopts "p2d:Kh" o; do
             DBG_NAME="$OPTARG"
             ;;
         K)
-            KILLOCD=true
+            OCDKILL_FLAG="-K"
             ;;
         h)
             help
@@ -79,9 +80,7 @@ shift $(($OPTIND - 1))
 PROGRAM_PATH="$1"
 
 # dependency checks
-OPENOCD=openocd # TODO any way to assert the RPi fork?
 GDB=gdb
-assert_cmd $OPENOCD
 if [ "$DBG_NAME" = "gdb" ]; then
     assert_cmd $GDB
 fi
@@ -98,25 +97,17 @@ if ! [ -f "$PROGRAM_PATH" ]; then
     exit 1
 fi
 
-# kill other openocd instances if chosen
-if $KILLOCD; then
-    killall -q $OPENOCD || true
-fi
-
-OPENOCDFLAGS="-f interface/cmsis-dap.cfg -f target/rp2350.cfg \
-              -c 'adapter speed 5000'"
-
 # function to program the pico
 program() {
-    eval "$OPENOCD $OPENOCDFLAGS \
-          -c \"program $PROGRAM_PATH verify reset exit\""
+    $OPENOCD_WRAP $OCDKILL_FLAG -- \
+        -c "program $PROGRAM_PATH verify reset exit"
 }
 
 # function to debug the program running on the pico
 debug() {
     # if just running the openocd server then forget about debugging after
     if [ "$DBG_NAME" = "none" ]; then
-        eval "$OPENOCD $OPENOCDFLAGS"
+        $OPENOCD_WRAP $OCDKILL_FLAG
         return
     fi
 
@@ -135,8 +126,9 @@ debug() {
     esac
 
     # run openocd and debugger in parallel
+    # TODO openocd not killed properly
     trap "kill %+" EXIT # kill the openocd process on CTRL+D
-    eval "$OPENOCD $OPENOCDFLAGS" &
+    eval "$OPENOCD_WRAP $OCDKILL_FLAG" &
     eval "$DBGCMD"
 }
 
