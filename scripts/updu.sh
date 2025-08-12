@@ -38,8 +38,7 @@ SCRIPT_PATH="$(dirname -- "$(realpath "$BASH_SOURCE")")"
 GDBINIT="$SCRIPT_PATH/updu_gdbinit"
 OCDSRV="$SCRIPT_PATH/ocdsrv.sh"
 
-# TODO add function to ocdsrv.sh to get ports and get it that way
-OCDSRV_GDB_PORT=7510
+OCDSRV_GDB_PORT=7510 # from ocdsrv_ports.cfg
 
 # default arg values
 MODE=1 # from -p,-2 -- 0: program, 1: debug, 2: both
@@ -77,13 +76,13 @@ if ! command -v "$GDB" >/dev/null 2>&1; then
     exit 1
 fi
 
-# specifying a ELF file path is required
+# specifying a binary file path is required
 if [ "$#" -ne 1 ]; then
     error "Illegal number of arguments passed"
     usage
     exit 1
 fi
-# check for the ELF binary at path
+# check for the binary at path
 if ! [ -f "$PROGRAM_PATH" ]; then
     error "No file at $PROGRAM_PATH"
     exit 1

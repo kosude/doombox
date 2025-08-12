@@ -2,13 +2,10 @@
 
 # -----------------------------------------------------------------------------
 # dump.sh: Dump the contents of the DOOMbox Non-Volatile Memory (NVM) via
-#          ocdsrv.sh and hexdump.
+#          ocdsrv.sh.
 #
 # Pass the -h flag for argument information.
 # -----------------------------------------------------------------------------
-
-# TODO replicate majority of hexdump format options (particularly -v)
-# TODO hexdump offsetting? (https://unix.stackexchange.com/q/798758/767538)
 
 ME="dump.sh"
 
@@ -78,7 +75,7 @@ BUFFER=$(mktemp /tmp/doombox-dump.XXXXXXXXXXXX)
 $OCDSRV exec -S -c "dump_image $BUFFER $OFFSET $LENGTH" 1>&2
 
 # output bytes
-hexdump "$BUFFER"
+xxd -g1 "$BUFFER"
 
 # clean up
 rm "$BUFFER"

@@ -190,7 +190,7 @@ function issue_all_telnet {
     EXPECTCMDS+="send \"exit\n\";" # exit telnet session to avoid interaction
     EXPECTCMDS+="expect eof;" # synchronous command execution
 
-    $EXPECT -c "$EXPECTCMDS" # > /dev/null 2>&1
+    $EXPECT -c "$EXPECTCMDS"
 
     return 0
 }
