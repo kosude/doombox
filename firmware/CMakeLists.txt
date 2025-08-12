@@ -2,9 +2,10 @@ pico_sdk_init()
 
 # firmware exec
 add_executable(doombox
-    "main.c"
+    "kernel/drivers/hal.c"
 
-    "drivers/hal.c"
+    "kernel/main.c"
+    "kernel/panic.c"
 )
 target_link_libraries(doombox
     pico_stdlib

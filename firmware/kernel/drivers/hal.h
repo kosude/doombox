@@ -5,10 +5,10 @@
  * See the LICENCE file for more information.
  */
 
-/*
+/******************************************************************************
  * hal.h
  * Hardware Abstraction Layer (HAL) init and configuration procedures
- */
+ *****************************************************************************/
 
 #pragma once
 #ifndef __drivers__hal_h__
@@ -20,7 +20,7 @@ extern "C" {
 #include <stdbool.h>
 
 /**
- * Initialise the Hardware Abstraction Layer
+ * Initialise the Hardware Abstraction Layer.
  */
 bool
 hal_init(void);
