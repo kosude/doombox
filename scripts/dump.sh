@@ -1,32 +1,49 @@
 #!/usr/bin/env bash
 
-# TODO figure out how to daemonise openocd and keep it local to this script to
-#      clean up AND how to then communicate to it via telnet
+# -----------------------------------------------------------------------------
+# dump.sh: Dump the contents of the DOOMbox Non-Volatile Memory (NVM) via
+#          ocdsrv.sh and hexdump.
+#
+# Pass the -h flag for argument information.
+# -----------------------------------------------------------------------------
 
-set -e
+# TODO replicate majority of hexdump format options (particularly -v)
+# TODO hexdump offsetting? (https://unix.stackexchange.com/q/798758/767538)
 
-usage() {
-    printf "Usage: $0 [-h] [-K]\n"
+ME="dump.sh"
+
+function usage {
+    printf "Usage: $ME [-h] [-n length] [-s offset] [-R]\n"
 }
-help() {
+function help {
+    printf "Utility for dumping blocks of DOOMbox non-volatile memory (NVM)\n"
+    printf "A component of the DOOMbox Project\n"
+
+    printf "\n"
     usage
     printf "\n"
 
-    printf "  -n length   Only dump length bytes\n"
-    printf "  -s offset   Skip offset bytes from the beginning\n"
-    printf "  -K          Kill ALL existing OpenOCD processes first\n"
+    printf "  -n length  Only dump length bytes (defaults to 1024)\n"
+    printf "  -s offset  Skip offset bytes from the beginning\n"
     printf "\n"
-    printf "  -h        Print this help message\n"
+    printf "  -R         Restart the OpenOCD daemon before communicating, if"
+    printf             " it is already up\n"
+    printf "\n"
+    printf "  -h         Print this help message\n"
 }
-error() {
-    printf "$0: $1\n"
+function error {
+    printf "$ME: $1\n"
 }
 
-OCDKILL_FLAG="" # -K optionally passed to oocd_wrap.sh
-LENGTH= # from -n
-OFFSET= # from -s
+SCRIPT_PATH="$(dirname -- "$(realpath "$BASH_SOURCE")")"
+OCDSRV="$SCRIPT_PATH/ocdsrv.sh"
 
-while getopts "n:s:Kh" o; do
+# default arg values
+OCDSRV_RESTART=false # from -R
+LENGTH=1024 # from -n
+OFFSET=0 # from -s
+
+while getopts "n:s:Rh" o; do
     case "$o" in
         n)
             LENGTH="$OPTARG"
@@ -34,8 +51,8 @@ while getopts "n:s:Kh" o; do
         s)
             OFFSET="$OPTARG"
             ;;
-        K)
-            OCDKILL_FLAG="-K"
+        R)
+            OCDSRV_RESTART=true
             ;;
         h)
             help
@@ -49,21 +66,19 @@ while getopts "n:s:Kh" o; do
 done
 shift $(($OPTIND - 1))
 
-PROJECT_PATH="$(dirname -- "$(dirname -- "$(realpath "$BASH_SOURCE")")")"
-OPENOCD_WRAP="$PROJECT_PATH/scripts/oocd_wrap.sh"
-
-# check for telnet
-TELNET=telnet
-if ! command -v "$TELNET" >/dev/null 2>&1; then
-    error "$TELNET not found on PATH"
-    exit 1
+# kill existing managed openocd server if specified to restart it
+if $OCDSRV_RESTART; then
+    $OCDSRV kill > /dev/null 2>&1
 fi
 
-# start openocd instance
-$OPENOCD_WRAP $OCDKILL_FLAG & 1>&2
+# temporary file to store dumped image data
+BUFFER=$(mktemp /tmp/doombox-dump.XXXXXXXXXXXX)
 
-# connect via telnet
-# TODO
-$TELNET localhost 4444 << EOF
-image_dump
-EOF
+# write image bytes to temporary file
+$OCDSRV exec -S -c "dump_image $BUFFER $OFFSET $LENGTH" 1>&2
+
+# output bytes
+hexdump "$BUFFER"
+
+# clean up
+rm "$BUFFER"

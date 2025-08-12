@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
 
 # -----------------------------------------------------------------------------
-# updu.sh: DOOMbox Unified Programming and Debugging Utility
+# updu.sh: DOOMbox Unified Programming and Debugging Utility.
+#          Uses the ocdsrv.sh script (with OpenOCD and Telnet) in tandem with
+#          a debugging backend to program and debug DOOMbox firmware running
+#          on-chip.
 #
 # Pass the -h flag for argument information.
 # -----------------------------------------------------------------------------
 
-set -e
+ME="updu.sh"
 
-usage() {
-    printf "Usage: $0 [-h] [-p|-2] [-d <gdb|none>] file\n"
+function usage {
+    printf "Usage: $ME [-h] [-p|-2] [-R] file\n"
 }
-help() {
+function help {
     printf "DOOMbox Unified Programming and Debugging Utility\n"
     printf "Utility tool for interfacing with connected RP2350 via OpenOCD\n"
 
@@ -21,37 +24,28 @@ help() {
 
     printf "  -p        Program the pico instead of debugging\n"
     printf "  -2        Two-stage: program and immediately start debugging\n"
-    printf "  -d name   Specify debugger to use (default: gdb)\n"
-    printf "  -K        Kill ALL existing OpenOCD processes before starting\n"
+    printf "\n"
+    printf "  -R        Restart the OpenOCD daemon before communicating, if it"
+    printf            " is already up\n"
     printf "\n"
     printf "  -h        Print this help message\n"
 }
-error() {
-    printf "$0: $1\n"
-}
-assert_cmd() {
-    if ! command -v "$1" >/dev/null 2>&1; then
-        error "$1 not found in PATH"
-        exit 1
-    fi
+function error {
+    printf "$ME: $1\n"
 }
 
-# don't allow prefixing with sudo.
-if [ $(id -u) -eq 0 ]; then
-    error "The UPDU cannot be called with sudo."
-    exit 1
-fi
+SCRIPT_PATH="$(dirname -- "$(realpath "$BASH_SOURCE")")"
+GDBINIT="$SCRIPT_PATH/updu_gdbinit"
+OCDSRV="$SCRIPT_PATH/ocdsrv.sh"
 
-PROJECT_PATH="$(dirname -- "$(dirname -- "$(realpath "$BASH_SOURCE")")")"
-GDBINIT="$PROJECT_PATH/scripts/updu_gdbinit"
-OPENOCD_WRAP="$PROJECT_PATH/scripts/oocd_wrap.sh"
+# TODO add function to ocdsrv.sh to get ports and get it that way
+OCDSRV_GDB_PORT=7510
 
 # default arg values
-MODE=1  # 0: program, 1: debug, 2: both
-DBG_NAME="gdb"
-OCDKILL_FLAG="" # -K optionally passed to oocd_wrap.sh
+MODE=1 # from -p,-2 -- 0: program, 1: debug, 2: both
+OCDSRV_RESTART=false # from -R
 
-while getopts "p2d:Kh" o; do
+while getopts "p2Rh" o; do
     case "$o" in
         p)
             MODE=0
@@ -59,11 +53,8 @@ while getopts "p2d:Kh" o; do
         2)
             MODE=2
             ;;
-        d)
-            DBG_NAME="$OPTARG"
-            ;;
-        K)
-            OCDKILL_FLAG="-K"
+        R)
+            OCDSRV_RESTART=true
             ;;
         h)
             help
@@ -81,71 +72,53 @@ PROGRAM_PATH="$1"
 
 # dependency checks
 GDB=gdb
-if [ "$DBG_NAME" = "gdb" ]; then
-    assert_cmd $GDB
+if ! command -v "$GDB" >/dev/null 2>&1; then
+    error "$GDB not found in PATH"
+    exit 1
 fi
 
-# specifying a path is required
+# specifying a ELF file path is required
 if [ "$#" -ne 1 ]; then
     error "Illegal number of arguments passed"
     usage
     exit 1
 fi
-# check for the program at path
+# check for the ELF binary at path
 if ! [ -f "$PROGRAM_PATH" ]; then
     error "No file at $PROGRAM_PATH"
     exit 1
 fi
 
+# kill existing managed openocd server if specified to restart it
+if $OCDSRV_RESTART; then
+    $OCDSRV kill > /dev/null 2>&1
+fi
+
 # function to program the pico
-program() {
-    $OPENOCD_WRAP $OCDKILL_FLAG -- \
-        -c "program $PROGRAM_PATH verify reset exit"
+function program {
+    $OCDSRV exec -S -c "program $PROGRAM_PATH verify reset"
 }
 
 # function to debug the program running on the pico
-debug() {
-    # if just running the openocd server then forget about debugging after
-    if [ "$DBG_NAME" = "none" ]; then
-        $OPENOCD_WRAP $OCDKILL_FLAG
-        return
-    fi
-
-    DBGCMD=
-    case "$DBG_NAME" in
-        gdb)
-            DBGCMD="$GDB -q -x $GDBINIT \"$PROGRAM_PATH\""
-            ;;
-        none)
-            ;;
-        *)
-            error "Invalid debugger name $DBG_NAME"
-            usage
-            exit 1
-            ;;
-    esac
-
-    # run openocd and debugger in parallel
-    # TODO openocd not killed properly
-    trap "kill %+" EXIT # kill the openocd process on CTRL+D
-    eval "$OPENOCD_WRAP $OCDKILL_FLAG" &
-    eval "$DBGCMD"
+function debug {
+    $GDB -q \
+        -x "$GDBINIT" \
+        -ex "target extended-remote localhost:$OCDSRV_GDB_PORT" \
+        -ex "monitor reset init" \
+        "$PROGRAM_PATH"
 }
 
 case "$MODE" in
     # program/flash
     0)
-        printf "$0: Mode: PROGRAM\n"
         program
         ;;
     # server for debugging
     1)
-        printf "$0: Mode: DEBUG\n"
         debug
         ;;
     # program and debug sequentially
     2)
-        printf "$0: Mode: 2STAGE\n"
         program
         debug
         ;;

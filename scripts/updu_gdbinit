@@ -3,9 +3,3 @@ define hook-quit
 end
 
 set pagination off
-
-target extended-remote localhost:3333
-
-# monitor calls OCD commands as in:
-# https://openocd.org/doc/html/General-Commands.html
-monitor reset init
