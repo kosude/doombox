@@ -4,6 +4,7 @@ pico_sdk_init()
 add_executable(doombox
     "kernel/drivers/hal.c"
     "kernel/drivers/audio/pz_act.c"
+    "kernel/drivers/video/vga.c"
 
     "kernel/main.c"
     "kernel/panic.c"
@@ -11,4 +12,5 @@ add_executable(doombox
 target_link_libraries(doombox
     pico_stdlib
     hardware_pwm
+    hardware_spi
 )
