@@ -32,6 +32,9 @@ Then (in the root project directory) configure for the desired build type:
 and build:
     $ cmake --build build
 
+Using the Debug build type enables stdio logging, which can help in debugging
+(see the relevant section below).
+
 Make sure the DBX_BUILD_FIRMWARE build option is set to ON - this is the
 default value.
 
@@ -57,6 +60,13 @@ USB.
 The rest of the process can be done for you by the Unified Programming and
 Debugging Utility (updu.sh) in the scripts/ directory, which will by default
 open a GDB session for debugging.
+
+Reading stdout can be done in any standard way. For instance, using minicom
+with a second Pico, run:
+
+    $ minicom -b 115200 -o -D /dev/ttyACM0
+
+(of course the device might be different)
 
 
 ###############################################################################
