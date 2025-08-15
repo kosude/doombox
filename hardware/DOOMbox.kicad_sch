@@ -5151,6 +5151,12 @@
 		(uuid "51b361f4-4539-47f4-882a-a56a646e1a3d")
 	)
 	(junction
+		(at 171.45 125.73)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "64956861-b4f3-47a0-8069-2f24a7da8fc7")
+	)
+	(junction
 		(at 166.37 71.12)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5303,14 +5309,6 @@
 	(no_connect
 		(at 243.84 116.84)
 		(uuid "0c230c18-1ab2-4114-b6f6-194e6694e9de")
-	)
-	(no_connect
-		(at 172.72 125.73)
-		(uuid "14d88aad-7852-4f7a-b39e-f1ba45b0dd95")
-	)
-	(no_connect
-		(at 172.72 123.19)
-		(uuid "195723cd-b59d-4a70-a63c-20613fb7aa32")
 	)
 	(no_connect
 		(at 139.7 58.42)
@@ -5538,6 +5536,16 @@
 	)
 	(wire
 		(pts
+			(xy 171.45 125.73) (xy 172.72 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1add74c0-c0e4-48d6-b385-7f077a36dc25")
+	)
+	(wire
+		(pts
 			(xy 166.37 81.28) (xy 191.77 81.28)
 		)
 		(stroke
@@ -5675,6 +5683,16 @@
 			(type default)
 		)
 		(uuid "2c681497-92e5-4b54-b47b-b2c0486da7c6")
+	)
+	(wire
+		(pts
+			(xy 172.72 123.19) (xy 171.45 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2cfc7ef8-d1ed-41b3-9b1e-79282265c60d")
 	)
 	(wire
 		(pts
@@ -6838,6 +6856,16 @@
 	)
 	(wire
 		(pts
+			(xy 171.45 123.19) (xy 171.45 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a8411f10-704b-4507-97c2-470296f1607c")
+	)
+	(wire
+		(pts
 			(xy 245.11 68.58) (xy 245.11 55.88)
 		)
 		(stroke
@@ -7175,6 +7203,16 @@
 			(type default)
 		)
 		(uuid "d5e195d9-4445-4baf-9f3c-260e9d3a94b3")
+	)
+	(wire
+		(pts
+			(xy 170.18 125.73) (xy 171.45 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d8410a81-011c-4da3-a4cb-d861044fa5b5")
 	)
 	(wire
 		(pts
@@ -11948,6 +11986,72 @@
 			(project "DOOMbox"
 				(path "/eddfbb36-34c6-4c43-a971-b4c3a9c38a8f"
 					(reference "R4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 170.18 125.73 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e781b632-efc8-4869-a939-c94cf911b7a4")
+		(property "Reference" "#PWR016"
+			(at 163.83 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 167.132 125.73 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 170.18 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 170.18 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 170.18 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a1530e37-fbcc-4309-9606-5eb6c9cb43f8")
+		)
+		(instances
+			(project "DOOMbox"
+				(path "/eddfbb36-34c6-4c43-a971-b4c3a9c38a8f"
+					(reference "#PWR016")
 					(unit 1)
 				)
 			)

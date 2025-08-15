@@ -135,7 +135,7 @@ On the Pico, GPIOs 2-4 and 6-7 are reserved for graphical output:
     7: VSYNC
 
 When writing colour data serially, the bit-order is as follows:
-    R R R G G G B B
+    B B G G G R R R
   first -------> last
 where the leftmost bit of each channel is the MSB as usual.
 

@@ -24,6 +24,7 @@ extern "C" {
  * GPIO field names relate directly to the respective pins on the schematic.
  */
 struct vga_outputs {
+    // TODO change struct considering only some pins can be used for spi0
     uint8_t gpio_scl0;
     uint8_t gpio_sdo0;
     uint8_t gpio_scsvga;
