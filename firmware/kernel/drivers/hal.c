@@ -6,11 +6,15 @@
  */
 
 #include "hal.h"
+#include "audio/pz_act.h"
+
+// Pico GPIO pin for the onboard speaker
+#define GPIO_OBSPKR 16
 
 bool
 hal_init(void)
 {
-    // TODO driver setup
+    pz_act_init(GPIO_OBSPKR);
 
     return true;
 }

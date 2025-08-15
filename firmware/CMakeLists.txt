@@ -3,6 +3,7 @@ pico_sdk_init()
 # firmware exec
 add_executable(doombox
     "kernel/drivers/hal.c"
+    "kernel/drivers/audio/pz_act.c"
 
     "kernel/main.c"
     "kernel/panic.c"
