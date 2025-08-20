@@ -1,0 +1,89 @@
+;; Copyright (c) 2025 Jack Bennett.
+;; All Rights Reserved.
+;;
+;; See the LICENCE file for more information.
+
+; *****************************************************************************
+; vsync.pio
+; V-sync signal generation driver
+; *****************************************************************************
+
+; see TIMINGS.txt for timing info
+; vsync oscillations are controlled by IRQ 0, issued by the hsync driver:
+;   addressable   = 480 lines     HIGH
+;   bottom border =   8 lines     HIGH
+;   front porch   =   2 lines     HIGH
+;   sync pulse    =   2 lines     LOW
+;   back porch    =  25 lines     HIGH
+;   top border    =   8 lines     HIGH
+;
+; 523 lines HIGH + 2 lines LOW = 525 lines total
+
+.program vsync
+.side_set 1 opt
+
+; waits until main program puts data to the TX FIFO buffer and then loads it
+; into OSR (== num of lines in addressable region)
+    pull    block
+
+.wrap_target
+
+; addressable
+; duration: OSR + 1 lines
+addr:
+    mov     x, osr                  ; set x to count down from OSR
+_addr_loop:
+    wait    1 irq 0                 ; wait for next line (IRQ 0 == EOL)
+    irq     1                       ; TODO signal spictl to start Write op
+    jmp     x-- _addr_loop          ; remain in addressable mode for OSR lines
+
+; bottom border + front porch
+; duration: 10 lines
+bb_fp:
+    set     y, 9                    ; 10 lines (8 + 2)
+_bb_fp_loop:
+    wait    1 irq 0                 ; wait for next line
+    jmp     y-- _bb_fp_loop         ; repeat for y lines
+
+; sync pulse
+; duration: 2 lines
+sync:
+    set     pins, 0                 ; LOW for 2 lines
+    wait    1 irq 0                 ; ..
+    wait    1 irq 0                 ; ..
+
+; back porch + top border
+; duration: 32 lines (first wait on next cycle completes the top border)
+bp_tb:
+    set     y, 31
+_bp_tb_loop:
+    wait    1 irq 0     side 0x1    ; vsync back HIGH and wait for next line
+    jmp     y-- _bp_tb_loop         ; repeat for y lines
+
+.wrap
+
+; *****************************************************************************
+
+% c-sdk {
+static inline void
+vsync_program_init(PIO pio,
+                   uint8_t sm,
+                   uint8_t offset,
+                   uint8_t gpio_vsync,
+                   uint16_t clkdiv_int,
+                   uint8_t clkdiv_frac)
+{
+    pio_sm_config cfg = vsync_program_get_default_config(offset);
+
+    sm_config_set_set_pins(&cfg, gpio_vsync, 1);
+    sm_config_set_sideset_pins(&cfg, gpio_vsync);
+    sm_config_set_clkdiv_int_frac(&cfg, clkdiv_int, clkdiv_frac);
+
+    // init the specified pin and set its direction to output
+    pio_gpio_init(pio, gpio_vsync);
+    pio_sm_set_consecutive_pindirs(pio, sm, gpio_vsync, 1, GPIO_OUT);
+
+    // load config and jump to offset (start of program)
+    pio_sm_init(pio, sm, offset, &cfg);
+}
+%}

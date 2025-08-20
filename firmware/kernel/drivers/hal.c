@@ -7,23 +7,29 @@
 
 #include "hal.h"
 #include "audio/pz_act.h"
-#include "video/vga.h"
+#include "vga/vga.h"
 
 // Pico GPIO pin for the onboard speaker
 #define GPIO_OBSPKR 16
 
+// TMP
+#include <hardware/gpio.h>
+#include <pico/stdlib.h>
+
 bool
 hal_init(void)
 {
+    // TODO TMP
+    gpio_init(PICO_DEFAULT_LED_PIN);
+    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+
     pz_act_init(GPIO_OBSPKR);
 
     // init vga
     struct vga_outputs vga_op = {
-        .gpio_scl0 = 2,
-        .gpio_sdo0 = 3,
-        .gpio_scsvga = 4,
-        .gpio_hsync = 6,
-        .gpio_vsync = 7,
+        .gpio_rgb8 = 2,
+        .gpio_hsync = 10,
+        .gpio_vsync = 11,
     };
     vga_init(vga_op);
 

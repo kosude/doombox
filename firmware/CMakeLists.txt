@@ -4,7 +4,7 @@ pico_sdk_init()
 add_executable(doombox
     "kernel/drivers/hal.c"
     "kernel/drivers/audio/pz_act.c"
-    "kernel/drivers/video/vga.c"
+    "kernel/drivers/vga/vga.c"
 
     "kernel/main.c"
     "kernel/panic.c"
@@ -12,14 +12,28 @@ add_executable(doombox
 target_link_libraries(doombox
     pico_stdlib
     hardware_pwm
-    hardware_spi
+    hardware_dma
+    hardware_pio
 )
-
-# stdio over uart only
-pico_enable_stdio_usb(doombox 0)
-pico_enable_stdio_uart(doombox 1)
+target_include_directories(doombox PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel")
 
 # debug macro
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(doombox PRIVATE _DEBUG)
 endif()
+
+# stdio over uart only
+pico_enable_stdio_usb(doombox 0)
+pico_enable_stdio_uart(doombox 1)
+
+# PIO assembly translation
+pico_generate_pio_header(
+    doombox
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/drivers/vga/hsync.pio")
+pico_generate_pio_header(
+    doombox
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/drivers/vga/vsync.pio")
+pico_generate_pio_header(
+    doombox
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/drivers/vga/video.pio")

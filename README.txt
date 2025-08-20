@@ -120,6 +120,8 @@ voltage to 5V.
 
 ---------------------------[ GRAPHICS SPECIFICATION ]--------------------------
 
+TODO update: removed SPI route
+
 DOOMbox provides graphical output via VGA. Colour data is output serially from
 the Pico (SPI), through an MCP23S08 for parallel expansion, to the VGA
 connector.
@@ -135,9 +137,12 @@ On the Pico, GPIOs 2-4 and 6-7 are reserved for graphical output:
     7: VSYNC
 
 When writing colour data serially, the bit-order is as follows:
-    B B G G G R R R
-  first -------> last
+    B1 B0 G2 G1 G0 R2 R1 R0
+  first ---------------> last
 where the leftmost bit of each channel is the MSB as usual.
+
+For VGA timing information, see the TIMINGS.txt file in the
+firmware/kernel/drivers/vga/ directory.
 
 
 ----------------------------[ AUDIO SPECIFICATION ]----------------------------

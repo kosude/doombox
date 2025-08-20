@@ -1,0 +1,76 @@
+;; Copyright (c) 2025 Jack Bennett.
+;; All Rights Reserved.
+;;
+;; See the LICENCE file for more information.
+
+; *****************************************************************************
+; hsync.pio
+; H-sync signal generation driver
+; *****************************************************************************
+
+; see TIMINGS.txt for detailed timing info
+;   addressable  = 25.422 usec ~ 640 cycles     HIGH
+;   right border =  0.318 usec ~ 8 cycles       HIGH
+;   front porch  =  0.318 usec ~ 8 cycles       HIGH
+;   sync pulse   =  3.813 usec ~ 96 cycles      LOW
+;   back porch   =  1.589 usec ~ 40 cycles      HIGH
+;   left border  =  0.318 usec ~ 8 cycles       HIGH
+;
+; 704 cycles HIGH + 96 cycles LOW = 800 cycles total
+
+.program hsync
+
+; waits until main program puts data to the TX FIFO buffer and then loads it
+; into OSR (== num of cycles in addressable region)
+    pull    block
+
+.wrap_target
+
+; addressable + right border + front porch
+; duration: OSR + 1 cycles
+addr_rb_fp:
+    mov     x, osr                  ; set x to count down from OSR
+_addr_rb_fp_loop:
+    jmp     x-- _addr_rb_fp_loop    ; high for OSR cycles
+
+; sync pulse
+; duration: 96 cycles
+sync:
+    set     pins, 0 [31]            ; 32 cycles
+    set     pins, 0 [31]            ; 64 cycles
+    set     pins, 0 [31]            ; 96 cycles
+
+; back porch + left border
+; duration: 47 cycles
+bp_lb:
+    set     pins, 1 [31]            ; 32 cycles
+    set     pins, 1 [12]            ; 45 cycles
+    irq     0       [1]             ; IRQ 0 signals EOL
+
+; additional JMP is another cycle
+.wrap
+
+; *****************************************************************************
+
+% c-sdk {
+static inline void
+hsync_program_init(PIO pio,
+                   uint8_t sm,
+                   uint8_t offset,
+                   uint8_t gpio_hsync,
+                   uint16_t clkdiv_int,
+                   uint8_t clkdiv_frac)
+{
+    pio_sm_config cfg = hsync_program_get_default_config(offset);
+
+    sm_config_set_set_pins(&cfg, gpio_hsync, 1);
+    sm_config_set_clkdiv_int_frac(&cfg, clkdiv_int, clkdiv_frac);
+
+    // init the specified pin and set its direction to output
+    pio_gpio_init(pio, gpio_hsync);
+    pio_sm_set_consecutive_pindirs(pio, sm, gpio_hsync, 1, GPIO_OUT);
+
+    // load config and jump to offset (start of program)
+    pio_sm_init(pio, sm, offset, &cfg);
+}
+%}

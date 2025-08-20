@@ -1,0 +1,58 @@
+;; Copyright (c) 2025 Jack Bennett.
+;; All Rights Reserved.
+;;
+;; See the LICENCE file for more information.
+
+; *****************************************************************************
+; video.pio
+; FIXME no desc
+; *****************************************************************************
+
+.program video
+
+    pull    block
+    mov     x, osr
+
+.wrap_target
+
+    mov     osr, null
+    out     pins, 8
+    mov     y, x
+
+    wait    1 irq 1 [3]
+
+_vout_loop:
+    pull    block
+    out     pins, 8 [3]
+    jmp     y-- _vout_loop
+
+.wrap
+
+; *****************************************************************************
+
+% c-sdk {
+static inline void
+video_program_init(PIO pio,
+                   uint8_t sm,
+                   uint8_t offset,
+                   uint8_t gpio_rgb)
+{
+    pio_sm_config cfg = video_program_get_default_config(offset);
+
+    sm_config_set_out_pins(&cfg, gpio_rgb, 8);
+
+    // all pins output
+    pio_sm_set_consecutive_pindirs(pio, sm, gpio_rgb, 8, true);
+
+    // make TX FIFO 8-bit
+    sm_config_set_fifo_join(&cfg, PIO_FIFO_JOIN_TX);
+
+    // init all pins
+    for (uint8_t i = 0; i < 8; i++) {
+        pio_gpio_init(pio, gpio_rgb + i);
+    }
+
+    // load config and jump to offset (start of program)
+    pio_sm_init(pio, sm, offset, &cfg);
+}
+%}

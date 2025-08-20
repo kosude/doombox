@@ -1,0 +1,60 @@
+-------------------------[ VGA TIMING CHARACTERISTICS ]------------------------
+
+Ref: https://glenwing.github.io/docs/VESA-DMT-1.13.pdf#page=21
+For regions diagram:
+    https://glenwing.github.io/docs/VESA-DMT-1.13.pdf#page=16
+
+
+DETAILED TIMING PARAMETERS FOR 640x480 @ 60Hz
+
+----------------------------------- GENERAL -----------------------------------
+
+    Hor pixels      = 640               (800 including non-addressable)
+    Ver lines       = 480               (525 including non-addressable)
+
+    Hor freq        = 31.469    kHz         = 31.8  usec/line
+    Ver freq        = 59.940     Hz         = 16.7  msec/frame
+    Pixel clk       = 25.175    MHz         = 39.7  nsec    +/- 0.5%
+        min         = 25.063    MHz         = 39.9  nsec
+        max         = 25.316    MHz         = 39.5  nsec
+    Char width      =  8        pixels
+
+    Scan type       = non-interlaced
+    Hor sync polar  = neg               (i.e. active low)
+    Ver sync polar  = neg               (i.e. active low)
+
+------------------------------- TIMING INTERVALS ------------------------------
+
+    Hor total time  = 31.778    usec        = 800   pixels
+    Hor addr time   = 25.422    usec        = 640   pixels
+    Hor blank start = 25.750    usec        = 648   pixels
+    Hor blank time  =  5.720    usec        = 144   pixels
+    Hor sync start  = 26.058    usec        = 656   pixels
+
+    Ver total time  = 16.683    msec        = 525   lines
+    Ver addr time   = 15.253    msec        = 480   lines
+    Ver blank start = 15.507    msec        = 488   lines
+    Ver blank time  =  0.922    msec        = 29    lines
+    Ver sync start  = 15.571    msec        = 490   lines
+
+------------------------------- REGION INTERVALS ------------------------------
+
+    Total non-addr
+        Hor         = 6.356     usec        = 160   pixels
+        Ver         = 1.431     msec        = 45    lines
+
+    Hor borders
+        Left bdr    = 0.318     usec        = 8     pixels
+        Right bdr   = 0.318     usec        = 8     pixels
+    Hor porches
+        Back pch    = 1.589     usec        = 40    pixels
+        Front pch   = 0.318     usec        = 8     pixels
+    Hor sync time   = 3.813     usec        = 96    pixels
+
+    Ver borders
+        Top bdr     = 0.254     msec        = 8     lines
+        Bottom bdr  = 0.254     msec        = 8     lines
+    Ver porches
+        Back pch    = 0.795     msec        = 25    lines
+        Front pch   = 0.064     msec        = 2     lines
+    Ver sync time   = 0.064     msec        = 2     lines
