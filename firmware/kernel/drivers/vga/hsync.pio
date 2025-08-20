@@ -6,17 +6,16 @@
 ; *****************************************************************************
 ; hsync.pio
 ; H-sync signal generation driver
-; *****************************************************************************
-
+;
 ; see TIMINGS.txt for detailed timing info
+;
 ;   addressable  = 25.422 usec ~ 640 cycles     HIGH
 ;   right border =  0.318 usec ~ 8 cycles       HIGH
 ;   front porch  =  0.318 usec ~ 8 cycles       HIGH
 ;   sync pulse   =  3.813 usec ~ 96 cycles      LOW
 ;   back porch   =  1.589 usec ~ 40 cycles      HIGH
 ;   left border  =  0.318 usec ~ 8 cycles       HIGH
-;
-; 704 cycles HIGH + 96 cycles LOW = 800 cycles total
+; *****************************************************************************
 
 .program hsync
 

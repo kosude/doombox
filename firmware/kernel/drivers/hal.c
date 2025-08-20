@@ -12,26 +12,27 @@
 // Pico GPIO pin for the onboard speaker
 #define GPIO_OBSPKR 16
 
-// TMP
-#include <hardware/gpio.h>
-#include <pico/stdlib.h>
+// Pico GPIOs for video output
+#define GPIO_B2G3R3_BASE 2
+#define GPIO_HSYNC       10
+#define GPIO_VSYNC       11
+
+// Reserved PIO instance(s)
+#define PIO_VGA 0
 
 bool
 hal_init(void)
 {
-    // TODO TMP
-    gpio_init(PICO_DEFAULT_LED_PIN);
-    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
-
     pz_act_init(GPIO_OBSPKR);
 
     // init vga
-    struct vga_outputs vga_op = {
-        .gpio_rgb8 = 2,
-        .gpio_hsync = 10,
-        .gpio_vsync = 11,
+    struct vga_config vga_cfg = {
+        .pio = PIO_VGA,
+        .gpio_b2g3r3_base = GPIO_B2G3R3_BASE,
+        .gpio_hsync = GPIO_HSYNC,
+        .gpio_vsync = GPIO_VSYNC,
     };
-    vga_init(vga_op);
+    vga_init(vga_cfg);
 
     return true;
 }

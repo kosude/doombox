@@ -20,13 +20,16 @@ extern "C" {
 #include <stdint.h>
 
 /**
- * VGA output line configuration.
+ * VGA configuration fields.
  * GPIO field names relate directly to the respective pins on the schematic.
  */
-struct vga_outputs {
-    uint8_t gpio_rgb8;
-    uint8_t gpio_hsync;
-    uint8_t gpio_vsync;
+struct vga_config {
+    // PIO instance to reserve for VGA state machines (0 or 1)
+    uint8_t pio;
+
+    uint8_t gpio_b2g3r3_base; // base RGB (physically B2G3R3) GPIO
+    uint8_t gpio_hsync;       // hsync pulse GPIO
+    uint8_t gpio_vsync;       // vsync pulse GPIO
 };
 
 /**
@@ -34,7 +37,7 @@ struct vga_outputs {
  * `op` struct.
  */
 void
-vga_init(const struct vga_outputs op);
+vga_init(const struct vga_config cfg);
 
 #ifdef __cplusplus
 }

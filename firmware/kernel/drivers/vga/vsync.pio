@@ -6,24 +6,23 @@
 ; *****************************************************************************
 ; vsync.pio
 ; V-sync signal generation driver
-; *****************************************************************************
-
+;
 ; see TIMINGS.txt for timing info
-; vsync oscillations are controlled by IRQ 0, issued by the hsync driver:
+; vsync oscillations are controlled by IRQ 0, issued by the H-sync driver.
+;
 ;   addressable   = 480 lines     HIGH
 ;   bottom border =   8 lines     HIGH
 ;   front porch   =   2 lines     HIGH
 ;   sync pulse    =   2 lines     LOW
 ;   back porch    =  25 lines     HIGH
 ;   top border    =   8 lines     HIGH
-;
-; 523 lines HIGH + 2 lines LOW = 525 lines total
+; *****************************************************************************
 
 .program vsync
 .side_set 1 opt
 
-; waits until main program puts data to the TX FIFO buffer and then loads it
-; into OSR (== num of lines in addressable region)
+; waits until the core puts data to the TX FIFO buffer and then loads it into
+; OSR (== num of lines in addressable region)
     pull    block
 
 .wrap_target
