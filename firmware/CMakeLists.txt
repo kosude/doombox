@@ -5,6 +5,7 @@ add_executable(doombox
     "kernel/drivers/hal.c"
     "kernel/drivers/audio/pz_act.c"
     "kernel/drivers/vga/vga.c"
+    "kernel/drivers/vga/vram.c"
 
     "kernel/main.c"
     "kernel/panic.c"
@@ -18,15 +19,6 @@ target_link_libraries(doombox
 target_include_directories(doombox PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/kernel")
 
-# debug macro
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_definitions(doombox PRIVATE _DEBUG)
-endif()
-
-# stdio over uart only
-pico_enable_stdio_usb(doombox 0)
-pico_enable_stdio_uart(doombox 1)
-
 # PIO assembly translation
 pico_generate_pio_header(
     doombox
@@ -37,3 +29,12 @@ pico_generate_pio_header(
 pico_generate_pio_header(
     doombox
     "${CMAKE_CURRENT_SOURCE_DIR}/kernel/drivers/vga/video.pio")
+
+# debug macro
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_definitions(doombox PRIVATE _DEBUG)
+endif()
+
+# stdio over uart only
+pico_enable_stdio_usb(doombox 0)
+pico_enable_stdio_uart(doombox 1)

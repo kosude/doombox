@@ -19,8 +19,8 @@
 
 .program hsync
 
-; waits until main program puts data to the TX FIFO buffer and then loads it
-; into OSR (== num of cycles in addressable region)
+; waits until the core puts data to the TX FIFO buffer and then loads it into
+; OSR (== num of cycles in addressable region)
     pull    block
 
 .wrap_target

@@ -100,16 +100,13 @@ Available capacity:
 TO-DO: specify memory map after reserved quantities are designated
 
 Available memory:
-    * 520 kiB on-chip SRAM
+    * 512 kiB on-chip SRAM
+    * 2 x 4 kiB banks
 
 Reserved memory quantities:
     * 128 kB for VGA output (320x200, 8 bpp):
         64 kB front buffer
         64 kB back buffer
-
-(520 * 1024) - (128 * 1000)
- = 404480 B
-is therefore available for code and data.
 
 
 ----------------------------[ POWER SPECIFICATION ]----------------------------
