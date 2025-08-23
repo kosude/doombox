@@ -18,6 +18,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 /**
  * Write a bunch of grids to the video memory to test the VGA colour DACs.
  * Some space is left at the bottom of the screen which can be used for text or
@@ -25,6 +27,16 @@ extern "C" {
  */
 void
 vga_stress_palette(void);
+
+/**
+ * Write some gridlines to vram, which might help with testing the stability of
+ * VGA synchronisation timings as well as positioning the active region.
+ *
+ * The separation of grid lines can be configured using `xinc` and `yinc`, and
+ * the colour with `col`.
+ */
+void
+vga_stress_grid(uint16_t xinc, uint16_t yinc, uint8_t col);
 
 #ifdef __cplusplus
 }

@@ -16,10 +16,11 @@ main(void)
     kstdio_init(); // no-op in release config
     hal_init();
 
-    vga_stress_palette();
-    vga_pset(0, 168);
-    vga_puts("*** DOOMbox VGA palette test ***\n\n\0", 0xFF);
-    vga_puts("    (very cool)\0", 0xFF);
+    vga_stress_grid(32, 100, 0b00011000);
+    // vga_stress_palette();
+    vga_padvance(4);
+    vga_puts("      *** DOOMbox puts() test ***\n\n\0", 0xFF);
+    vga_puts("          (very cool)\0", 0xFF);
 
     return 0;
 }

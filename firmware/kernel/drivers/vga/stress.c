@@ -45,3 +45,26 @@ vga_stress_palette(void)
         }
     }
 }
+
+void
+vga_stress_grid(uint16_t xinc, uint16_t yinc, uint8_t col)
+{
+    for (uint16_t x = 0; x < VGA_WIDTH; x++) {
+        // top and bottom rows
+        VRAM[x] = VRAM[((VGA_HEIGHT - 1) * VGA_WIDTH) + x] = col;
+
+        for (uint16_t y = 0; y < VGA_HEIGHT; y++) {
+            // left and right columns
+            VRAM[y * VGA_WIDTH] = VRAM[y * VGA_WIDTH - 1] = col;
+
+            // vertical lines
+            if (x % xinc == 0) {
+                VRAM[y * VGA_WIDTH + x] = col;
+            }
+            // horizontal lines
+            if (y % yinc == 0) {
+                VRAM[y * VGA_WIDTH + x] = col;
+            }
+        }
+    }
+}
