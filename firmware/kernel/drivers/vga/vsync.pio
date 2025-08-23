@@ -10,12 +10,12 @@
 ; see TIMINGS.txt for timing info
 ; vsync oscillations are controlled by IRQ 0, issued by the H-sync driver.
 ;
-;   addressable   = 480 lines     HIGH
-;   bottom border =   8 lines     HIGH
-;   front porch   =   2 lines     HIGH
-;   sync pulse    =   2 lines     LOW
-;   back porch    =  25 lines     HIGH
-;   top border    =   8 lines     HIGH
+;   addressable   = 400 lines     LOW
+;   bottom border =  25 lines     LOW
+;   front porch   =   2 lines     LOW
+;   sync pulse    =   2 lines     HIGH
+;   back porch    =  24 lines     LOW
+;   top border    =   2 lines     LOW
 ; *****************************************************************************
 
 .program vsync
@@ -33,13 +33,13 @@ addr:
     mov     x, osr                  ; set x to count down from OSR
 _addr_loop:
     wait    1 irq 0                 ; wait for next line (IRQ 0 == EOL)
-    irq     1                       ; TODO signal spictl to start Write op
+    irq     1                       ; rgb data write for this line
     jmp     x-- _addr_loop          ; remain in addressable mode for OSR lines
 
 ; bottom border + front porch
-; duration: 10 lines
+; duration: 27 lines
 bb_fp:
-    set     y, 9                    ; 10 lines (8 + 2)
+    set     y, 26
 _bb_fp_loop:
     wait    1 irq 0                 ; wait for next line
     jmp     y-- _bb_fp_loop         ; repeat for y lines
@@ -47,17 +47,17 @@ _bb_fp_loop:
 ; sync pulse
 ; duration: 2 lines
 sync:
-    set     pins, 0                 ; LOW for 2 lines
-    wait    1 irq 0                 ; ..
-    wait    1 irq 0                 ; ..
+    set     pins, 0                 ; set pins LOW during sync pulse
+    wait    1 irq 0
+    wait    1 irq 0
 
 ; back porch + top border
-; duration: 32 lines (first wait on next cycle completes the top border)
+; duration: 26 lines (first wait on next cycle completes the top border)
 bp_tb:
-    set     y, 31
-_bp_tb_loop:
+    set     y, 24                   ; cumulative loop: 25 lines
+_bp_tb_loop1:
     wait    1 irq 0     side 0x1    ; vsync back HIGH and wait for next line
-    jmp     y-- _bp_tb_loop         ; repeat for y lines
+    jmp     y-- _bp_tb_loop1        ; repeat for y lines
 
 .wrap
 

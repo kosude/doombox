@@ -9,12 +9,12 @@
 ;
 ; see TIMINGS.txt for detailed timing info
 ;
-;   addressable  = 25.422 usec ~ 640 cycles     HIGH
-;   right border =  0.318 usec ~ 8 cycles       HIGH
-;   front porch  =  0.318 usec ~ 8 cycles       HIGH
-;   sync pulse   =  3.813 usec ~ 96 cycles      LOW
-;   back porch   =  1.589 usec ~ 40 cycles      HIGH
-;   left border  =  0.318 usec ~ 8 cycles       HIGH
+;   addressable  = 25.439 usec ~ 320 cycles     HIGH
+;   left border  =  0.000 usec ~ 0 cycles       HIGH
+;   back porch   =  1.908 usec ~ 24 cycles      HIGH
+;   sync pulse   =  3.816 usec ~ 48 cycles      LOW
+;   front porch  =  0.636 usec ~ 8 cycles       HIGH
+;   right border =  0.000 usec ~ 0 cycles       HIGH
 ; *****************************************************************************
 
 .program hsync
@@ -33,17 +33,15 @@ _addr_rb_fp_loop:
     jmp     x-- _addr_rb_fp_loop    ; high for OSR cycles
 
 ; sync pulse
-; duration: 96 cycles
+; duration: 48 cycles
 sync:
     set     pins, 0 [31]            ; 32 cycles
-    set     pins, 0 [31]            ; 64 cycles
-    set     pins, 0 [31]            ; 96 cycles
+    set     pins, 0 [15]            ; 48 cycles
 
 ; back porch + left border
-; duration: 47 cycles
+; duration: 23 cycles
 bp_lb:
-    set     pins, 1 [31]            ; 32 cycles
-    set     pins, 1 [12]            ; 45 cycles
+    set     pins, 1 [20]            ; 21 cycles
     irq     0       [1]             ; IRQ 0 signals EOL
 
 ; additional JMP is another cycle

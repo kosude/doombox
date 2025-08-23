@@ -16,9 +16,9 @@
 
 // VGA constants
 // (must be passed to PIO FIFOs as pioasm cannot set registers above 31)
-#define HSYNC_ACTIVE_CYCLES 655 // (640 + 8 + 8) - (1 to account for MOV)
-#define VSYNC_ACTIVE_LINES  479 // (480) - (1 to account for first wait)
-#define VIDEO_HOR_ACTIVE    639 // 640 - 1 (num pixels per line)
+#define HSYNC_ACTIVE_CYCLES 327
+#define VSYNC_ACTIVE_LINES  399
+#define VIDEO_HOR_ACTIVE    319
 
 void
 vga_init(const struct vga_config cfg)
@@ -43,8 +43,10 @@ vga_init(const struct vga_config cfg)
     // freq (150 MHz) can be divided by 5.953125, i.e. CLKDIV INT=5,
     // FRAC=244. This results in a freq of ~25.197 MHz, i.e. one clock
     // cycle ~ 39.688 ns.
-    const uint16_t div_int = 5;
-    const uint8_t div_frac = 244;
+    // const uint16_t div_int = 5;
+    // const uint8_t div_frac = 244;
+    const uint16_t div_int = 11;
+    const uint8_t div_frac = 237;
 
     // init pio synchronisation programs (functions defined in .pio files)
     hsync_program_init(pio,
