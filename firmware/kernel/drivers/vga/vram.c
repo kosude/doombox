@@ -6,7 +6,6 @@
  */
 
 #include <hardware/dma.h>
-#include <string.h>
 
 #include "vga.h"
 #include "vram.h"

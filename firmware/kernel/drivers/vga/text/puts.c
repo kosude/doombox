@@ -5,7 +5,6 @@
  * See the LICENCE file for more information.
  */
 
-#include "puts.h"
 #include "../vga.h"
 #include "font.h"
 

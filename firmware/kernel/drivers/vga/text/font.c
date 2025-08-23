@@ -5,11 +5,8 @@
  * See the LICENCE file for more information.
  */
 
-#include "font.h"
 #include "../vga.h"
 #include "../vram.h"
-
-#include <kstdio.h>
 
 // clang-format off
 // ref: https://www.ascii-code.com/
