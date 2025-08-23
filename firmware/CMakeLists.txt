@@ -25,13 +25,13 @@ target_include_directories(doombox PRIVATE
 # PIO assembly translation
 pico_generate_pio_header(
     doombox
-    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/drivers/vga/hsync.pio")
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/drivers/vga/pio/hsync.pio")
 pico_generate_pio_header(
     doombox
-    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/drivers/vga/vsync.pio")
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/drivers/vga/pio/vsync.pio")
 pico_generate_pio_header(
     doombox
-    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/drivers/vga/video.pio")
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/drivers/vga/pio/video.pio")
 
 # debug macro
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
