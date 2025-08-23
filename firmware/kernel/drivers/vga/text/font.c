@@ -11,7 +11,7 @@
 // clang-format off
 // ref: https://www.ascii-code.com/
 // font bytes from https://gitlab.com/kosude/doom
-uint64_t __vgafont[128] = {
+uint64_t __vga_font[128] = {
     // control characters (0-31)
     0x0,                 /* NUL */
     0x0,                 /* SOH */
@@ -150,7 +150,7 @@ void
 vga_fontat(const char ch, const uint8_t col, const uint16_t x, const uint16_t y)
 {
     // start at the last byte in the glyph; decrement for the right way up
-    uint8_t *glyptr = (uint8_t *)(&__vgafont[ch]) + 7;
+    uint8_t *glyptr = (uint8_t *)(&__vga_font[ch]) + 7;
 
     // iterate over the positioned 8x8 square in vram
     size_t vofs;

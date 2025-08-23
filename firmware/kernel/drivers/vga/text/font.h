@@ -21,7 +21,7 @@ extern "C" {
 
 #include <stdint.h>
 
-extern uint64_t __vgafont[128];
+extern uint64_t __vga_font[128];
 
 /**
  * Put an ASCII character `ch` at the specified location on the screen (320x200
