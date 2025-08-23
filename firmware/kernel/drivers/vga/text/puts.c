@@ -8,7 +8,6 @@
 #include "puts.h"
 #include "../vga.h"
 #include "font.h"
-#include "kstdio.h"
 
 // Position values of the 'put head' a.k.a. current coordinate offset in vram.
 static struct {
@@ -39,6 +38,16 @@ vga_putc(const char ch, const uint8_t col)
 }
 
 void
+vga_puts(const char *const str, const uint8_t col)
+{
+    const char *ch = str;
+    while (*ch) {
+        vga_putc(*ch, col);
+        ch++;
+    }
+}
+
+void
 vga_padvance(void)
 {
     _head.x = 0;
@@ -49,8 +58,8 @@ void
 vga_pincrement(const uint16_t n)
 {
     _head.x += 8 * n;
-    _head.y += 8 * (_head.x / VGA_WIDTH);
-    _head.x %= VGA_WIDTH;
+    _head.y += 8 * (_head.x / VGA_WIDTH); // advance lines if x is past EOL
+    _head.x %= VGA_WIDTH; // reduce x to the offset from start of the line
 }
 
 void

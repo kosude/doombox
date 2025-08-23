@@ -15,17 +15,9 @@ main(void)
     kstdio_init(); // no-op in release config
     hal_init();
 
-    vga_putc('H', 0b00000111);
-    vga_putc('e', 0b00000111);
-    vga_putc('l', 0b00000111);
-    vga_putc('l', 0b00000111);
-    vga_putc('o', 0b00000111);
-    vga_pincrement(1);
-    vga_putc('W', 0b00000111);
-    vga_putc('o', 0b00000111);
-    vga_putc('r', 0b00000111);
-    vga_putc('l', 0b00000111);
-    vga_putc('d', 0b00000111);
+    vga_pset(0, 168);
+    vga_puts("*** DOOMbox VGA palette test ***\n\n\0", 0xFF);
+    vga_puts("    (very cool)\0", 0xFF);
 
     return 0;
 }

@@ -28,6 +28,13 @@ void
 vga_putc(const char ch, const uint8_t col);
 
 /**
+ * Write a positioned null-terminated ASCII string to the screen with the given
+ * colour `col`.
+ */
+void
+vga_puts(const char *const str, const uint8_t col);
+
+/**
  * Advance the put head to the next line.
  */
 void
