@@ -8,6 +8,7 @@
 #include <hardware/dma.h>
 #include <string.h>
 
+#include "vga.h"
 #include "vram.h"
 
 uint8_t __vram_start[VRAM_LEN];
@@ -35,7 +36,6 @@ vram_dma_channel_configure(pio_hw_t *const pio, const uint8_t sm)
                           &pio->txf[sm], // write to TX FIFO for video sm
                           &VRAM,         // read bytes from VRAM
                           64000,
-                          //   307200,
                           false // don't start immediately
     );
 
@@ -77,7 +77,8 @@ vram_init_palette()
                 // draw a 20x10 block of colour rgb
                 for (size_t i = 0; i < 10; i++) {
                     for (size_t j = 0; j < 20; j++) {
-                        ((uint8_t *)VRAM)[((posy + i) * 320) + (posx + j)] =
+                        ((uint8_t *)
+                             VRAM)[((posy + i) * VGA_WIDTH) + (posx + j)] =
                             rgb;
                     }
                 }

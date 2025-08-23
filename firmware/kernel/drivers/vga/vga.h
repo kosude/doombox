@@ -7,7 +7,7 @@
 
 /******************************************************************************
  * vga.h
- * Driver for VGA video output through SPI.
+ * Main driver interface for VGA video output via PIO and DMA.
  *****************************************************************************/
 
 #pragma once
@@ -18,6 +18,9 @@ extern "C" {
 #endif
 
 #include <stdint.h>
+
+#define VGA_WIDTH  320 // the width (in px) of the active screen region
+#define VGA_HEIGHT 200 // the height (in px) of the active screen region
 
 /**
  * VGA configuration fields.
