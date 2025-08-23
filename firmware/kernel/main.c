@@ -20,7 +20,7 @@ main(void)
     vga_putc('l', 0b00000111);
     vga_putc('l', 0b00000111);
     vga_putc('o', 0b00000111);
-    vga_putc(' ', 0b00000111);
+    vga_pincrement(1);
     vga_putc('W', 0b00000111);
     vga_putc('o', 0b00000111);
     vga_putc('r', 0b00000111);

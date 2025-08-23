@@ -27,6 +27,25 @@ extern "C" {
 void
 vga_putc(const char ch, const uint8_t col);
 
+/**
+ * Advance the put head to the next line.
+ */
+void
+vga_padvance(void);
+
+/**
+ * Increment the put head by `n` characters.
+ */
+void
+vga_pincrement(const uint16_t n);
+
+/**
+ * Set the position of the put head in screen space. To keep the head aligned
+ * with other text make sure x and y are multiples of 8.
+ */
+void
+vga_pset(const uint16_t x, const uint16_t y);
+
 #ifdef __cplusplus
 }
 #endif
