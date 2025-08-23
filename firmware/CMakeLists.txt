@@ -5,6 +5,7 @@ add_executable(doombox
     "kernel/drivers/audio/pz_act.c"
     "kernel/drivers/vga/text/font.c"
     "kernel/drivers/vga/text/puts.c"
+    "kernel/drivers/vga/stress.c"
     "kernel/drivers/vga/vga.c"
     "kernel/drivers/vga/vram.c"
     "kernel/drivers/hal.c"

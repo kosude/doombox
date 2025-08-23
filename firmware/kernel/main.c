@@ -6,6 +6,7 @@
  */
 
 #include "drivers/hal.h"
+#include "drivers/vga/stress.h"
 #include "drivers/vga/text/puts.h"
 #include "kstdio.h"
 
@@ -15,6 +16,7 @@ main(void)
     kstdio_init(); // no-op in release config
     hal_init();
 
+    vga_stress_palette();
     vga_pset(0, 168);
     vga_puts("*** DOOMbox VGA palette test ***\n\n\0", 0xFF);
     vga_puts("    (very cool)\0", 0xFF);

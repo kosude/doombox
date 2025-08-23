@@ -35,10 +35,10 @@ void
 vga_puts(const char *const str, const uint8_t col);
 
 /**
- * Advance the put head to the next line.
+ * Advance the put head by `n` lines.
  */
 void
-vga_padvance(void);
+vga_padvance(const uint16_t n);
 
 /**
  * Increment the put head by `n` characters.

@@ -6,6 +6,7 @@
  */
 
 #include <hardware/dma.h>
+#include <string.h>
 
 #include "vga.h"
 #include "vram.h"
@@ -58,41 +59,8 @@ vram_dma_channel_configure(pio_hw_t *const pio, const uint8_t sm)
     return chan0;
 }
 
-// TODO temp function
 void
-vram_init_palette()
+vram_clear(const uint8_t col)
 {
-    size_t posx = 0, posy = 0;
-
-    // loop through blocks (incr red)
-    for (uint8_t r = 0; r < 8; r++) {
-        // loop through rows (incr green)
-        for (uint8_t g = 0; g < 8; g++) {
-            // loop through columns (inc blue)
-            for (uint8_t b = 0; b < 4; b++) {
-                // encode rgb value (BBGGGRRR)
-                uint8_t rgb = (b << 6) | (g << 3) | r;
-
-                // draw a 20x10 block of colour rgb
-                for (size_t i = 0; i < 10; i++) {
-                    for (size_t j = 0; j < 20; j++) {
-                        ((uint8_t *)
-                             VRAM)[((posy + i) * VGA_WIDTH) + (posx + j)] =
-                            rgb;
-                    }
-                }
-
-                posx += 20;
-            }
-            posx -= 80;
-            posy += 10;
-        }
-
-        if (r != 3) {
-            posx += 80;
-            posy -= 80;
-        } else {
-            posx = 0;
-        }
-    }
+    memset(__vram_start, col, VRAM_LEN);
 }

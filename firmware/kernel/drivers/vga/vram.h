@@ -33,9 +33,11 @@ extern uint8_t __vram_start[];
 uint32_t
 vram_dma_channel_configure(pio_hw_t *const pio, uint8_t sm);
 
-// TODO temp function
+/**
+ * Clear the entire video memory block to a given value.
+ */
 void
-vram_init_palette();
+vram_clear(const uint8_t col);
 
 #ifdef __cplusplus
 }

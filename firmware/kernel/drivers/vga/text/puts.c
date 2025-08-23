@@ -47,10 +47,10 @@ vga_puts(const char *const str, const uint8_t col)
 }
 
 void
-vga_padvance(void)
+vga_padvance(const uint16_t n)
 {
     _head.x = 0;
-    _head.y += 8;
+    _head.y += 8 * n;
 }
 
 void

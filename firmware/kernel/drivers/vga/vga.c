@@ -76,7 +76,4 @@ vga_init(const struct vga_config cfg)
                                (1 << sm_hsync) | (1 << sm_vsync)
                                    | (1 << sm_video));
     dma_start_channel_mask(1 << dma_vram);
-
-    // TODO temp: init vram to palette image
-    vram_init_palette();
 }
