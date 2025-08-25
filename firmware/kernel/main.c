@@ -8,6 +8,7 @@
 #include "drivers/hal.h"
 #include "drivers/vga/stress.h"
 #include "drivers/vga/text/puts.h"
+#include "game/init.h"
 #include "kstdio.h"
 
 int
@@ -28,8 +29,7 @@ main(void)
 
     vga_stress_atlas(0xFF);
 
-    for (;;) {
-    }
+    game_main();
 
     return 0;
 }

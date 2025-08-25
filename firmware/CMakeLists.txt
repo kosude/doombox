@@ -12,6 +12,8 @@ add_executable(doombox
 
     "kernel/main.c"
     "kernel/panic.c"
+
+    "game/init.c"
 )
 target_link_libraries(doombox
     pico_stdlib
@@ -20,6 +22,7 @@ target_link_libraries(doombox
     hardware_pio
 )
 target_include_directories(doombox PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}"
     "${CMAKE_CURRENT_SOURCE_DIR}/kernel")
 
 # PIO assembly translation
