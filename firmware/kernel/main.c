@@ -5,8 +5,6 @@
  * See the LICENCE file for more information.
  */
 
-#include <pico/stdlib.h>
-
 #include "drivers/hal.h"
 #include "drivers/vga/stress.h"
 #include "drivers/vga/text/puts.h"
@@ -19,6 +17,8 @@ main(void)
     hal_init();
 
     vga_stress_palette();
+    vga_stress_grid(32, 100, 0b00011000);
+    vga_stress_grid(32, 100, 0b00011000);
     vga_stress_grid(32, 100, 0b00011000);
 
     vga_pset(0, 0); // reset text put head

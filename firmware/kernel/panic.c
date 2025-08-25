@@ -5,8 +5,6 @@
  * See the LICENCE file for more information.
  */
 
-#include <hardware/sync.h>
-
 #include "drivers/vga/text/puts.h"
 #include "drivers/vga/vga.h"
 #include "drivers/vga/vram.h"

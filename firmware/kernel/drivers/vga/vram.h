@@ -8,7 +8,7 @@
 /******************************************************************************
  * vram.h
  * Functions/symbols for reading and writing to the reserved video memory
- * (VRAM) block.
+ * (VRAM) block, and bridging it to the video signal PIO via DMA.
  *****************************************************************************/
 
 #pragma once

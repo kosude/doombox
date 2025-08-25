@@ -5,7 +5,6 @@
  * See the LICENCE file for more information.
  */
 
-#include "hal.h"
 #include "audio/pz_act.h"
 #include "vga/vga.h"
 
@@ -23,16 +22,16 @@
 bool
 hal_init(void)
 {
+    // async obspkr interface
     pz_act_init(GPIO_OBSPKR);
 
-    // init vga
-    struct vga_config vga_cfg = {
+    // vga graphics driver
+    vga_init((struct vga_config){
         .pio = PIO_VGA,
         .gpio_b2g3r3_base = GPIO_B2G3R3_BASE,
         .gpio_hsync = GPIO_HSYNC,
         .gpio_vsync = GPIO_VSYNC,
-    };
-    vga_init(vga_cfg);
+    });
 
     return true;
 }
