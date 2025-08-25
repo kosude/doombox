@@ -15,10 +15,12 @@
 #define DMA_CHAN_VIDEO  0
 #define DMA_CHAN_RECONF 1
 
-uint8_t __vram_start[VRAM_LEN];
+uint8_t __vram_start[VRAM_LEN]; // array contains pixel data for both buffers
+uint8_t *__vram_back = &__vram_start[VRAM_FB_LEN]; // back buffer
 
 static volatile uint8_t *__vram_ptr = &__vram_start[0];
 static volatile size_t __scanline = 0;
+static volatile uint8_t __frame = 0; // frame = 0 or 1, determines drawn buffer
 
 void
 __not_in_flash_func(_dma_adv_dram_ptr)()
@@ -30,9 +32,15 @@ __not_in_flash_func(_dma_adv_dram_ptr)()
     __scanline++;
     if (__scanline >= VGA_SCAN_HEIGHT) {
         __scanline = 0;
+
+        // copy back buffer to front buffer
+        memcpy(__vram_start, __vram_back, VRAM_FB_LEN);
+        __frame = !__frame;
     }
+
     // pointer indexed to each line twice
-    __vram_ptr = &__vram_start[VGA_WIDTH * ((__scanline + 1) >> 1)];
+    __vram_ptr = &__vram_start[VRAM_FB_LEN * __frame
+                               + VGA_WIDTH * ((__scanline + 1) >> 1)];
 }
 
 uint32_t
@@ -50,7 +58,7 @@ vram_dma_channel_configure(pio_hw_t *const pio, const uint8_t sm)
     dma_channel_configure(DMA_CHAN_VIDEO,
                           &cfg,
                           &pio->txf[sm],
-                          &VRAM,
+                          &__vram_start,
                           VGA_WIDTH,
                           false);
 

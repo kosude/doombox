@@ -20,10 +20,14 @@ extern "C" {
 
 #include <hardware/pio.h>
 
+// VRAM memory block, containing space for both framebuffers
 extern uint8_t __vram_start[];
+// Pointer to the VRAM back buffer
+extern uint8_t *__vram_back;
 
-#define VRAM     __vram_start
-#define VRAM_LEN 128000 // 2 * fb width * fb height
+#define VRAM        __vram_back // Vram back buffer for pixels to be updated
+#define VRAM_LEN    128000      // 2 * fb width * fb height
+#define VRAM_FB_LEN 64000       // fb width * fb height
 
 /**
  * Configure and return a DMA channel for video data (VRAM) transfers, where
