@@ -22,8 +22,7 @@ target_link_libraries(doombox
     hardware_pio
 )
 target_include_directories(doombox PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}"
-    "${CMAKE_CURRENT_SOURCE_DIR}/kernel")
+    "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # PIO assembly translation
 pico_generate_pio_header(
