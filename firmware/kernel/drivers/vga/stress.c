@@ -5,6 +5,7 @@
  * See the LICENCE file for more information.
  */
 
+#include "text/puts.h"
 #include "vga.h"
 #include "vram.h"
 
@@ -66,5 +67,14 @@ vga_stress_grid(uint16_t xinc, uint16_t yinc, uint8_t col)
                 VRAM[y * VGA_WIDTH + x] = col;
             }
         }
+    }
+}
+
+void
+vga_stress_atlas(uint8_t col)
+{
+    vga_pset(0, 0);
+    for (uint8_t i = 0; i < 128; i++) {
+        vga_putc(i, col);
     }
 }

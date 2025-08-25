@@ -38,6 +38,16 @@ vga_stress_palette(void);
 void
 vga_stress_grid(uint16_t xinc, uint16_t yinc, uint8_t col);
 
+/**
+ * Write a font atlas to vram which might be helpful when diagnosing font
+ * issues. This will include non-'printable' character codes (0-31) and the
+ * space (32).
+ *
+ * The colour of the output atlas can be changed with `col`.
+ */
+void
+vga_stress_atlas(uint8_t col);
+
 #ifdef __cplusplus
 }
 #endif
