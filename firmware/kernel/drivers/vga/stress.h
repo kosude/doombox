@@ -36,7 +36,7 @@ vga_stress_palette(void);
  * the colour with `col`.
  */
 void
-vga_stress_grid(uint16_t xinc, uint16_t yinc, uint8_t col);
+vga_stress_grid(const uint16_t xinc, const uint16_t yinc, const uint8_t col);
 
 /**
  * Write a font atlas to vram which might be helpful when diagnosing font
@@ -46,7 +46,7 @@ vga_stress_grid(uint16_t xinc, uint16_t yinc, uint8_t col);
  * The colour of the output atlas can be changed with `col`.
  */
 void
-vga_stress_atlas(uint8_t col);
+vga_stress_atlas(const uint8_t col);
 
 #ifdef __cplusplus
 }

@@ -48,7 +48,7 @@ vga_stress_palette(void)
 }
 
 void
-vga_stress_grid(uint16_t xinc, uint16_t yinc, uint8_t col)
+vga_stress_grid(const uint16_t xinc, const uint16_t yinc, const uint8_t col)
 {
     for (uint16_t x = 0; x < VGA_WIDTH; x++) {
         // top and bottom rows
@@ -71,7 +71,7 @@ vga_stress_grid(uint16_t xinc, uint16_t yinc, uint8_t col)
 }
 
 void
-vga_stress_atlas(uint8_t col)
+vga_stress_atlas(const uint8_t col)
 {
     vga_pset(0, 0);
     for (uint8_t i = 0; i < 128; i++) {

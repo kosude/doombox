@@ -11,6 +11,8 @@
 #include "vga.h"
 #include "vram.h"
 
+#include "kstdio.h"
+
 #define DMA_CHAN_VIDEO  0
 #define DMA_CHAN_RECONF 1
 
@@ -21,20 +23,26 @@ static volatile uint8_t *__vram_ptr = &__vram_start[0];
 static volatile size_t __scanline = 0;
 static volatile uint8_t __frame = 0; // frame = 0 or 1, determines drawn buffer
 
+static volatile bool __swap = false;
+
 void
 __not_in_flash_func(_dma_adv_dram_ptr)()
 {
     // clear the interrupt request
     dma_hw->ints0 = 1u << DMA_CHAN_VIDEO;
 
+    __swap = false;
+
     // increment ptr line (between 0-399)
     __scanline++;
     if (__scanline >= VGA_SCAN_HEIGHT) {
         __scanline = 0;
 
-        // copy back buffer to front buffer
-        memcpy(__vram_start, __vram_back, VRAM_FB_LEN);
-        __frame = !__frame;
+        __swap = true;
+
+        // // copy back buffer to front buffer
+        // memcpy(__vram_start, __vram_back, VRAM_FB_LEN);
+        // __frame = !__frame;
     }
 
     // pointer indexed to each line twice
@@ -87,7 +95,20 @@ vram_dma_channel_configure(pio_hw_t *const pio, const uint8_t sm)
 }
 
 void
+vram_swap(void)
+{
+    while (!__swap) {
+    }
+    __swap = false;
+
+    // copy back buffer to front buffer
+    memcpy(__vram_start, __vram_back, VRAM_FB_LEN);
+    __frame = !__frame;
+}
+
+void
 vram_clear(const uint8_t col)
 {
-    memset(__vram_start, col, VRAM_LEN);
+    // clear the back buffer
+    memset(__vram_back, col, VRAM_FB_LEN);
 }

@@ -37,6 +37,15 @@ uint32_t
 vram_dma_channel_configure(pio_hw_t *const pio, uint8_t sm);
 
 /**
+ * Swap the front and back buffer regions in vram.
+ *
+ * The word 'swap' isn't strictly true, as the contents of the back buffer are
+ * just copied to the front buffer.
+ */
+void
+vram_swap(void);
+
+/**
  * Clear the entire video memory block to a given value.
  */
 void
