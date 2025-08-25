@@ -29,9 +29,6 @@ extern "C" {
  * GPIO field names relate directly to the respective pins on the schematic.
  */
 struct vga_config {
-    // PIO instance to reserve for VGA state machines (0 or 1)
-    uint8_t pio;
-
     uint8_t gpio_b2g3r3_base; // base RGB (physically B2G3R3) GPIO
     uint8_t gpio_hsync;       // hsync pulse GPIO
     uint8_t gpio_vsync;       // vsync pulse GPIO

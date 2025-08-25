@@ -14,6 +14,9 @@
 #include "video.pio.h"
 #include "vsync.pio.h"
 
+// PIO instance used for driving VGA signals
+#define pio pio0
+
 // VGA constants
 // (must be passed to PIO FIFOs as pioasm cannot set registers above 31)
 #define HSYNC_ACTIVE_CYCLES 327
@@ -23,8 +26,6 @@
 void
 vga_init(const struct vga_config cfg)
 {
-    pio_hw_t *const pio = (cfg.pio) ? pio1 : pio0;
-
     // load pio programs, offsets are returned
     const uint8_t ofs_hsync = pio_add_program(pio, &hsync_program);
     const uint8_t ofs_vsync = pio_add_program(pio, &vsync_program);
@@ -59,7 +60,7 @@ vga_init(const struct vga_config cfg)
     video_program_init(pio, sm_video, ofs_video, cfg.gpio_b2g3r3_base);
 
     // init dma for VRAM transfers to PIO state machines
-    const uint32_t dma_vram = vram_dma_channel_configure(pio, sm_video);
+    const uint32_t dma_vram = vram_dma_channel_configure(sm_video);
 
     // put VGA constants - read in PIOs via initial PULL instruction
     pio_sm_put_blocking(pio, sm_hsync, HSYNC_ACTIVE_CYCLES);

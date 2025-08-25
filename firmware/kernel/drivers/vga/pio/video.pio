@@ -21,6 +21,8 @@
 
 ; video output
 vout:
+    irq     nowait 2                ; signal core to swap buffers in blanking
+
     ; in blanking region up until wait
     mov     osr, null
     out     pins, 8                 ; clear pins during blanking

@@ -18,7 +18,7 @@
 extern "C" {
 #endif
 
-#include <hardware/pio.h>
+#include <stdint.h>
 
 // VRAM memory block, containing space for both framebuffers
 extern uint8_t __vram_start[];
@@ -34,13 +34,10 @@ extern uint8_t *__vram_back;
  * `sm` is the video signal state machine.
  */
 uint32_t
-vram_dma_channel_configure(pio_hw_t *const pio, uint8_t sm);
+vram_dma_channel_configure(uint8_t sm);
 
 /**
  * Swap the front and back buffer regions in vram.
- *
- * The word 'swap' isn't strictly true, as the contents of the back buffer are
- * just copied to the front buffer.
  */
 void
 vram_swap(void);

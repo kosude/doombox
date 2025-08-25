@@ -5,6 +5,8 @@
  * See the LICENCE file for more information.
  */
 
+#include <stddef.h>
+
 #include "text/puts.h"
 #include "vga.h"
 #include "vram.h"

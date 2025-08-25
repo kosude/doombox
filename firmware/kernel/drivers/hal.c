@@ -16,9 +16,6 @@
 #define GPIO_HSYNC       10
 #define GPIO_VSYNC       11
 
-// Reserved PIO instance(s)
-#define PIO_VGA 0
-
 bool
 hal_init(void)
 {
@@ -27,7 +24,6 @@ hal_init(void)
 
     // vga graphics driver
     vga_init((struct vga_config){
-        .pio = PIO_VGA,
         .gpio_b2g3r3_base = GPIO_B2G3R3_BASE,
         .gpio_hsync = GPIO_HSYNC,
         .gpio_vsync = GPIO_VSYNC,
