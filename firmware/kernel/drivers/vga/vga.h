@@ -19,8 +19,10 @@ extern "C" {
 
 #include <stdint.h>
 
-#define VGA_WIDTH  320 // the width (in px) of the active screen region
-#define VGA_HEIGHT 200 // the height (in px) of the active screen region
+#define VGA_WIDTH       320 // the width of the used screen region
+#define VGA_HEIGHT      200 // the height of the used screen region
+#define VGA_SCAN_WIDTH  320 // actual width of the screen active region
+#define VGA_SCAN_HEIGHT 400 // actual height of the screen active region
 
 /**
  * VGA configuration fields.

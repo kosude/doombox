@@ -42,7 +42,7 @@ sync:
 ; duration: 23 cycles
 bp_lb:
     set     pins, 1 [20]            ; 21 cycles
-    irq     0       [1]             ; IRQ 0 signals EOL
+    irq     nowait 0 [1]            ; IRQ 0 signals EOL
 
 ; additional JMP is another cycle
 .wrap

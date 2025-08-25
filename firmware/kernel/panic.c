@@ -35,7 +35,8 @@ kpanic(void)
              "  You will need to reset the system.\0",
              0b00110111);
 
-    // hang the system, equivalent to cli+hlt
-    save_and_disable_interrupts();
-    __wfi();
+    // hang this thread (not best way but actually halting the system currently
+    // stops DMA interrupts, which are needed for proper rendering)
+    for (;;) {
+    }
 }

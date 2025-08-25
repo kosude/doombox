@@ -21,6 +21,11 @@ main(void)
     vga_padvance(4);
     vga_puts("      *** DOOMbox puts() test ***\n\n\0", 0xFF);
     vga_puts("          (very cool)\0", 0xFF);
+    vga_padvance(7);
+    vga_puts("Now in 320x200 resolution!!\0", 0xFF);
+
+    for (;;) {
+    }
 
     return 0;
 }

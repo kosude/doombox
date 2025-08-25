@@ -33,7 +33,7 @@ addr:
     mov     x, osr                  ; set x to count down from OSR
 _addr_loop:
     wait    1 irq 0                 ; wait for next line (IRQ 0 == EOL)
-    irq     1                       ; rgb data write for this line
+    irq     nowait 1                ; rgb data write for this line
     jmp     x-- _addr_loop          ; remain in addressable mode for OSR lines
 
 ; bottom border + front porch

@@ -23,8 +23,7 @@ extern "C" {
 extern uint8_t __vram_start[];
 
 #define VRAM     __vram_start
-#define VRAM_LEN 128000
-// #define VRAM_LEN 307200
+#define VRAM_LEN 128000 // 2 * fb width * fb height
 
 /**
  * Configure and return a DMA channel for video data (VRAM) transfers, where

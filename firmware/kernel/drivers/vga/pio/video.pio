@@ -26,9 +26,8 @@ vout:
     out     pins, 8                 ; clear pins during blanking
     mov     y, x
 
-    wait    1 irq 1                 ; wait until next active region line
+    wait    1 irq 1 [2]             ; wait until next active region line
 
-    ; ~12 cycles needed per pixel to fill screen w/ 320 width
 _vout_loop:
     pull    block                   ; pull next 8-bit colour value from DMA
     out     pins, 8 [9]             ; push pixel to GPIOs
@@ -52,7 +51,7 @@ video_program_init(PIO pio,
     // all pins output
     pio_sm_set_consecutive_pindirs(pio, sm, gpio_b2g3r3_base, 8, true);
 
-    // make TX FIFO 8-bit, RX is disabled
+    // make TX FIFO 8-word, RX is disabled
     sm_config_set_fifo_join(&cfg, PIO_FIFO_JOIN_TX);
 
     // init all pins

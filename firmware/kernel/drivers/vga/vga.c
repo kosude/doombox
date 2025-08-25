@@ -39,12 +39,7 @@ vga_init(const struct vga_config cfg)
     // see TIMINGS.txt for timing parameter information
     // + ref for PIO: https://vanhunteradams.com/Pico/VGA/VGA.html
     // ..
-    // To get near to the ideal pixel clock frequency, the Pico sys clock
-    // freq (150 MHz) can be divided by 5.953125, i.e. CLKDIV INT=5,
-    // FRAC=244. This results in a freq of ~25.197 MHz, i.e. one clock
-    // cycle ~ 39.688 ns.
-    // const uint16_t div_int = 5;
-    // const uint8_t div_frac = 244;
+    // pixel clock = system clock / (INT + FRAC/256)
     const uint16_t div_int = 11;
     const uint8_t div_frac = 237;
 
