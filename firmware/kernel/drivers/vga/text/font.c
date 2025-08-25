@@ -156,7 +156,6 @@ vga_fontat(const char ch, const uint8_t col, const uint16_t x, const uint16_t y)
     size_t vofs;
     for (uint8_t i = 0; i < 8; i++) {
         for (uint8_t j = 0; j < 8; j++) {
-            // TODO update for double-buffering
             vofs = ((y + i) * VGA_WIDTH) + (x + j); // index/offset into vram
 
             if (*glyptr & (1 << j)) {
