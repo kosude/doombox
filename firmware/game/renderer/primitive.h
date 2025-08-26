@@ -27,10 +27,10 @@ extern "C" {
  * differential analyser (DDA) rasterisation.
  */
 void
-render_prim_line(const uint16_t x0,
-                 const uint16_t y0,
-                 const uint16_t x1,
-                 const uint16_t y1,
+render_prim_line(const int32_t x0,
+                 const int32_t y0,
+                 const int32_t x1,
+                 const int32_t y1,
                  const uint8_t col);
 
 #ifdef __cplusplus

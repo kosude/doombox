@@ -12,8 +12,6 @@
 #include "vga.h"
 #include "vram.h"
 
-#include "kstdio.h"
-
 // PIO instance used for driving VGA signals
 #define pio      pio0
 #define pio_irq0 PIO0_IRQ_0

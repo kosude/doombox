@@ -84,6 +84,15 @@ struct geom_cam {
     struct geom_vec2 pos;
 };
 
+/**
+ * Return the cross product magnitude of two 2-D vectors.
+ */
+inline float
+geom_vec2_cross(const struct geom_vec2 a, const struct geom_vec2 b)
+{
+    return a.x * b.y - a.y * b.x;
+}
+
 #ifdef __cplusplus
 }
 #endif

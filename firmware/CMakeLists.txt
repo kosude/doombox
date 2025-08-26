@@ -15,6 +15,7 @@ add_executable(doombox
 
     "game/init.c"
     "game/level/lvldata.c"
+    "game/renderer/perspective.c"
     "game/renderer/primitive.c"
 )
 target_link_libraries(doombox
