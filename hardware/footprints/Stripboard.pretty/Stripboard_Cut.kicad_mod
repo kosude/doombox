@@ -1,0 +1,81 @@
+(footprint "Stripboard_Cut"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "A cut mark in a copper strip")
+	(property "Reference" "REF**"
+		(at 0 -6.58 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "37ef216d-109a-4ed0-897d-2317462ff317")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "Stripboard_Cut"
+		(at 0 -5.08 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b0a94934-47bb-413e-9b11-4794865fe94d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f46e2795-2d7f-42ce-887b-781151dbe803")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "A cut mark in a copper strip"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "0f470c91-8c04-495a-9673-4321c878fef5")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -0.636396 -0.636396)
+		(end 0.636396 0.636396)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "B.Paste")
+		(uuid "fc4fc1a5-f6ea-4ec0-99c6-6abdb18abafd")
+	)
+	(fp_line
+		(start 0.636396 -0.636396)
+		(end -0.636396 0.636396)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "B.Paste")
+		(uuid "135247d3-0483-4fcf-a481-257fbdbcd82d")
+	)
+	(embedded_fonts no)
+)
