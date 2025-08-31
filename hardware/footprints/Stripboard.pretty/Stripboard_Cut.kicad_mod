@@ -64,7 +64,7 @@
 			(width 0.2)
 			(type solid)
 		)
-		(layer "B.Paste")
+		(layer "Eco1.User")
 		(uuid "fc4fc1a5-f6ea-4ec0-99c6-6abdb18abafd")
 	)
 	(fp_line
@@ -74,7 +74,7 @@
 			(width 0.2)
 			(type solid)
 		)
-		(layer "B.Paste")
+		(layer "Eco1.User")
 		(uuid "135247d3-0483-4fcf-a481-257fbdbcd82d")
 	)
 	(embedded_fonts no)
