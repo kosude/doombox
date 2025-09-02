@@ -3,4 +3,5 @@
   (lib (name "MCU_Microchip_MCP")(type "KiCad")(uri "${KIPRJMOD}/symbols/MCU_Microchip_MCP.kicad_sym")(options "")(descr ""))
   (lib (name "MCU_RPi")(type "KiCad")(uri "${KIPRJMOD}/symbols/MCU_RPi.kicad_sym")(options "")(descr ""))
   (lib (name "CD40xxBx")(type "KiCad")(uri "${KIPRJMOD}/symbols/CD40xxBx.kicad_sym")(options "")(descr ""))
+  (lib (name "AP7381")(type "KiCad")(uri "${KIPRJMOD}/symbols/AP7381.kicad_sym")(options "")(descr ""))
 )

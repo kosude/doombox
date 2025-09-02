@@ -4,4 +4,5 @@
   (lib (name "MCU_Microchip_MCP")(type "KiCad")(uri "${KIPRJMOD}/footprints/MCU_Microchip_MCP")(options "")(descr ""))
   (lib (name "CD40xxBx")(type "KiCad")(uri "${KIPRJMOD}/footprints/CD40xxBx")(options "")(descr ""))
   (lib (name "Stripboard")(type "KiCad")(uri "${KIPRJMOD}/footprints/Stripboard.pretty")(options "")(descr ""))
+  (lib (name "AP7381")(type "KiCad")(uri "${KIPRJMOD}/footprints/AP7381.pretty")(options "")(descr ""))
 )
