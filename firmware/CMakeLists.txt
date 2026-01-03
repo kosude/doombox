@@ -47,3 +47,5 @@ endif()
 # stdio over uart only
 pico_enable_stdio_usb(doombox 0)
 pico_enable_stdio_uart(doombox 1)
+
+pico_add_extra_outputs(doombox)

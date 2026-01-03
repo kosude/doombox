@@ -9,7 +9,7 @@
 #include "vga/vga.h"
 
 // Pico GPIO pin for the onboard speaker
-#define GPIO_OBSPKR 16
+#define GPIO_OBSPKR 17
 
 // Pico GPIOs for video output
 #define GPIO_B2G3R3_BASE 2
@@ -28,6 +28,8 @@ hal_init(void)
         .gpio_hsync = GPIO_HSYNC,
         .gpio_vsync = GPIO_VSYNC,
     });
+
+    pz_act_repeat(100, 100, 5);
 
     return true;
 }
